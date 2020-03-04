@@ -18,4 +18,5 @@ PickUP
 -----> server.js
 -----> package.json
 -----> .gitignore
+-----> .travis.yml
 -> mobile
