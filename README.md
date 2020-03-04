@@ -1,22 +1,3 @@
 # PickUP
 
-File structure should be as follows (add/edit if neccessary)
-
-PickUP
--> web
------> boilerplate react
-.....
-.....
-.....
------> client
---------> components
-.........
-.........
-.........
---------> package.json
------> api
------> server.js
------> package.json
------> .gitignore
------> .travis.yml
--> mobile
+intial setup by following this -> https://www.youtube.com/watch?v=m_u6P5k0vP0&t=6042s
