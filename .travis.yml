@@ -6,3 +6,8 @@ node_js:
 before_install: cd web/client
 
 script: npm start
+
+branches:
+  only:
+    - master
+    - /^feature.*$/
