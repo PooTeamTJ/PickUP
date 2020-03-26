@@ -1,0 +1,12 @@
+language: node_js
+
+node_js:
+  - "stable"
+
+before_install: cd web/client
+
+script: npm start
+
+branches:
+  only:
+    - ci-test
