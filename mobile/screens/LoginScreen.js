@@ -5,60 +5,72 @@ import {
   View,
   TextInput,
   TouchableOpacity,
-  StatusBar
+  StatusBar,
+  ImageBackground
 } from 'react-native';
+
 
 const LoginPage = ({ navigation }) => {
     return (
       <View style={styles.container}>
-      // status bar (the line at the top of the phone)
-        <StatusBar backgroundColor="#1e90ff" barStyle="light-content"/>
-      // Header
-        <Text style={styles.welcome}>Login To PickUp</Text>
-      // input text holder for user name
+      {/**    background img      **/}
+      <ImageBackground source={require("../assets/loginBG.jpeg")} style={styles.image}>
+
+      {/**    headerg      **/}
+        <Text style={styles.welcome}>PickUp</Text>
+
+        {/**    User input place holder      **/}
         <TextInput
           style={styles.input}
           placeholder="Username"
           />
-        // input text holder for password
+
+          {/**    Password input place holder      **/}
           <TextInput
             style={styles.input}
             placeholder="Password"
             secureTextEntry
             />
-          // buttons
+
+          {/**    Buttons container      **/}
           <View style = {styles.btnContainer}>
-          // Login btn
+
+            {/**    Login btn      **/}
             <TouchableOpacity
             style = {styles.userBtn}>
               <Text style={styles.btnTxt}>Login</Text>
             </TouchableOpacity>
-            // signup btn
+
+            {/**    Signop btn      **/}
             <TouchableOpacity
               style = {styles.userBtn}>
               <Text style = {styles.btnTxt}>Signup</Text>
             </TouchableOpacity>
 
           </View>
-
+        </ImageBackground>
       </View>
     )
   }
 
-
-// styles for the page
+  {/**    styles     **/}
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#1e90ff'
+    flexDirection: "column"
+  },
+  image: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center",
+    alignItems: 'center'
+
   },
   welcome: {
     fontSize: 30,
     textAlign: 'center',
     margin: 10,
-    color: "#fff",
+    color: "#FFF",
     fontFamily: "DancingScript-Bold"
 
   },
@@ -81,7 +93,7 @@ const styles = StyleSheet.create({
   flexDirection: "row",
   justifyContent: "space-between",
   width: "90%"
-  }
+}
 })
 
 export default LoginPage
