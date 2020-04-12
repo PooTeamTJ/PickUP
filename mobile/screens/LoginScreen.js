@@ -1,4 +1,4 @@
-{/** Login screen. For any questions contact Zeke at Itzikefraim6@gmail.com **/
+{/** Login screen. For any questions contact Zeke at Itzikefraim6@gmail.com **/}
 
 import React, {component} from 'react';
 import {
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     margin: 10,
     color: "#FFF",
-    fontFamily: "DancingScript-Bold"
+    
 
   },
   input: {
