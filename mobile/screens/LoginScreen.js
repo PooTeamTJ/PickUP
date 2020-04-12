@@ -1,3 +1,5 @@
+{/** Login screen. For any questions contact Zeke at Itzikefraim6@gmail.com **/
+
 import React, {component} from 'react';
 import {
   StyleSheet,
@@ -16,7 +18,7 @@ const LoginPage = ({ navigation }) => {
       {/**    background img      **/}
       <ImageBackground source={require("../assets/loginBG.jpeg")} style={styles.image}>
 
-      {/**    headerg      **/}
+      {/**    header, can be replaced with app logo when we get one     **/}
         <Text style={styles.welcome}>PickUp</Text>
 
         {/**    User input place holder      **/}
