@@ -12,22 +12,23 @@ import {
 } from 'react-native';
 
 
-const SignUpPage = ({ navigation }) => {
+export default class SignUpPage extends React.Component {
     state = {
-        username: '', email: '', password: ''
+        username: '', email: '', password: '', age: ''
     }
     onChangeText = (key, val) => {
         this.setState({ [key]: val })
     }
     signUp = async () => {
-        const { username, email, password } = this.state
+        const { username, email, password, age } = this.state
         try {
             console.log('User succesfully signed up!: ', success)
-        } catch (error) {
-            console.log('Error signing up', error)
+        } catch (err) {
+            console.log('Error signing up', err)
         }
     }
 
+    render() {
     return (
         <View style={styles.container}>
             {/**    background img      **/}
@@ -37,31 +38,35 @@ const SignUpPage = ({ navigation }) => {
             <Text style={styles.welcome}>Sign Up With Email</Text>
 
             {/**    User input place holder      **/}
-            <TextInput style={styles.input} placeholder="Username" onChangeText={val => this.onChangeText('password', val)}/>
+            <TextInput style={styles.input} placeholder="Username" autoCapitalize="none" onChangeText={val => this.onChangeText('username', val)}/>
 
             {/**    Email input place holder      **/}
-            <TextInput style={styles.input} placeholder="Email" autoCompleteType="email" onChangeText={val => this.onChangeText('email', val)} />
+            <TextInput style={styles.input} placeholder="Email" autoCapitalize="none" onChangeText={val => this.onChangeText('email', val)} />
 
             {/**    Password input place holder      **/}
-            <TextInput style={styles.input} placeholder="Password" secureTextEntry onChangeText={val => this.onChangeText('password', value)} />
+            <TextInput style={styles.input} placeholder="Password" autoCapitalize="none" secureTextEntry onChangeText={val => this.onChangeText('password', val)} />
+
+            {/**    Age input place holder      **/}
+            <TextInput style={styles.input} placeholder="Age" autoCapitalize="none" onChangeText={val => this.onChangeText('age', val)}/>
 
             {/**    Buttons container      **/}
             <View style = {styles.btnContainer}>
                 {/**    Login btn      **/}
                 <TouchableOpacity style = {styles.userBtn}>
-                    <Button color="black" style={styles.btnTxt} title="Create an account" />
+                    <Button color="black" style={styles.btnTxt} onPress={this.signUp} title="Create an account" />
                 </TouchableOpacity>
             </View>
 
             {/**    Go to login link    **/}
             <View style={styles.buttonStyle}>
                 <Text style={styles.account}>Already have an account?</Text>
-                <Button color="#FFD700" onPress={() => navigation.navigate('Login')} title='Login' />
+                <Button color="#FFD700" onPress={() => this.props.navigation.navigate('Login')} title='Login' />
             </View>
         </ImageBackground>
       </View>
     )
   }
+}
 
   {/**    styles     **/}
 const styles = StyleSheet.create({
@@ -111,4 +116,3 @@ const styles = StyleSheet.create({
     }
 })
 
-export default SignUpPage
