@@ -1,6 +1,6 @@
 {/** Login screen. For any questions contact Zeke at Itzikefraim6@gmail.com **/}
 
-import React, {component} from 'react';
+import React, {Component} from 'react';
 import {
   StyleSheet,
   Text,
@@ -11,18 +11,22 @@ import {
   ImageBackground
 } from 'react-native';
 
+export default class LoginPage extends Component{
 
-const values = {
-  username: '',
-  password: ''
-}
-
-const loginAction = () => {
-  console.log(values.username + ' ' + values.password)
-}
+  state = {
+    username: '', password: ''
+  }
 
 
-const LoginPage = ({ navigation }) => {
+  login = () => {
+    console.log(this.state.username + ' ' + this.state.password)
+
+  }
+
+
+
+render() {
+
     return (
       <View style={styles.container}>
       {/**    background img      **/}
@@ -35,7 +39,7 @@ const LoginPage = ({ navigation }) => {
         <TextInput
           style={styles.input}
           placeholder="Username"
-          onChangeText = {(val) => values.username = val}
+          onChangeText = {(text) => this.setState({username: text})}
           />
 
           {/**    Password input place holder      **/}
@@ -43,7 +47,7 @@ const LoginPage = ({ navigation }) => {
             style={styles.input}
             placeholder="Password"
             secureTextEntry
-            onChangeText = {(val) => values.password = val}
+            onChangeText = {(text) => this.setState({password: text})}
 
             />
 
@@ -53,8 +57,10 @@ const LoginPage = ({ navigation }) => {
             {/**    Login btn      **/}
             <TouchableOpacity
             style = {styles.userBtn}
-            onPress={loginAction}>
+            onPress = {this.login}
+            >
               <Text style={styles.btnTxt}>Login</Text>
+
             </TouchableOpacity>
 
             {/**    Signop btn      **/}
@@ -69,6 +75,7 @@ const LoginPage = ({ navigation }) => {
       </View>
     )
   }
+}
 
   {/**    styles     **/}
 const styles = StyleSheet.create({
@@ -112,5 +119,3 @@ const styles = StyleSheet.create({
   width: "90%"
 }
 })
-
-export default LoginPage
