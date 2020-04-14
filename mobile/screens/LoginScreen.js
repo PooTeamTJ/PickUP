@@ -63,7 +63,7 @@ render() {
 
             </TouchableOpacity>
 
-            {/**    Signop btn      **/}
+            {/**    Signup btn      **/}
             <TouchableOpacity
               style = {styles.userBtn}
               onPress = {() => navigation.navigate('Signup')} >
