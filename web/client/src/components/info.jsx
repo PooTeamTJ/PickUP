@@ -1,12 +1,12 @@
 import React from 'react';
 import '../App.css'
-import {Redirect, Link } from "react-router-dom"
+import { Link } from "react-router-dom"
 
 function Info(){
 
     return(
         <div id="loginDiv">
-            <h>Welcome to PickUP</h>
+            <h1>Welcome to PickUP</h1>
             <div>
                 <Link to='/login'>Login</Link><br />
                 <Link to='/register'>Register</Link><br />
