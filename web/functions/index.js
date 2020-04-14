@@ -4,7 +4,7 @@ const express = require("express");
 const {db} = require('./util/admin')
 const { signUp, login} = require('./routes/user')
 const {uploadImage} = require('./routes/imgUpload')
-
+const auth = require('./middleware/auth')
 const app = express();
 
 
@@ -21,6 +21,6 @@ const app = express();
 app.post('/signup', signUp);
 app.post('/login', login)
 
-app.post('/user/image', uploadImage)
+app.post('/user/imageUpload',auth, uploadImage)
 // ensure that our enpoints look like this no matter the route -> https://domain.com/api/
 exports.api = functions.https.onRequest(app);
