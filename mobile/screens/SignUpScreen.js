@@ -49,7 +49,7 @@ const SignUpPage = ({ navigation }) => {
             <View style = {styles.btnContainer}>
                 {/**    Login btn      **/}
                 <TouchableOpacity style = {styles.userBtn}>
-                <Button style={styles.btnTxt} title="Create an account" />
+                    <Button color="black" style={styles.btnTxt} title="Create an account" />
                 </TouchableOpacity>
             </View>
 
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
         },
         userBtn: {
             backgroundColor: "#FFD700",
-            padding:15,
+            padding: 7,
             width:"100%"
         },
         btnTxt: {
@@ -97,9 +97,9 @@ const styles = StyleSheet.create({
             textAlign: "center"
         },
         btnContainer: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-        width: "90%"
+            flexDirection: "row",
+            justifyContent: "space-between",
+            width: "90%",
         },
         buttonStyle: {
             flexDirection: "row"
