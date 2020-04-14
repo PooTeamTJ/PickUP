@@ -43,7 +43,7 @@ const LoginPage = ({ navigation }) => {
               <Text style={styles.btnTxt}>Login</Text>
             </TouchableOpacity>
 
-            {/**    Signop btn      **/}
+            {/**    Signup btn      **/}
             <TouchableOpacity
               style = {styles.userBtn}>
               <Text style = {styles.btnTxt}>Signup</Text>
