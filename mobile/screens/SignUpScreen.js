@@ -29,43 +29,43 @@ export default class SignUpPage extends React.Component {
     }
 
     render() {
-    return (
-        <View style={styles.container}>
-            {/**    background img      **/}
-            <ImageBackground source={require("../assets/loginBG.jpeg")} style={styles.image}>
+        return (
+            <View style={styles.container}>
+                {/**    background img      **/}
+                <ImageBackground source={require("../assets/loginBG.jpeg")} style={styles.image}>
 
-            {/**    header, can be replaced with app logo when we get one     **/}
-            <Text style={styles.welcome}>Sign Up With Email</Text>
+                    {/**    header, can be replaced with app logo when we get one     **/}
+                    <Text style={styles.welcome}>Sign Up With Email</Text>
 
-            {/**    User input place holder      **/}
-            <TextInput style={styles.input} placeholder="Username" autoCapitalize="none" onChangeText={val => this.onChangeText('username', val)}/>
+                    {/**    User input place holder      **/}
+                    <TextInput style={styles.input} placeholder="Username" autoCapitalize="none" onChangeText={val => this.onChangeText('username', val)}/>
 
-            {/**    Email input place holder      **/}
-            <TextInput style={styles.input} placeholder="Email" autoCapitalize="none" onChangeText={val => this.onChangeText('email', val)} />
+                    {/**    Email input place holder      **/}
+                    <TextInput style={styles.input} placeholder="Email" autoCapitalize="none" onChangeText={val => this.onChangeText('email', val)} />
 
-            {/**    Password input place holder      **/}
-            <TextInput style={styles.input} placeholder="Password" autoCapitalize="none" secureTextEntry onChangeText={val => this.onChangeText('password', val)} />
+                    {/**    Password input place holder      **/}
+                    <TextInput style={styles.input} placeholder="Password" autoCapitalize="none" secureTextEntry onChangeText={val => this.onChangeText('password', val)} />
 
-            {/**    Age input place holder      **/}
-            <TextInput style={styles.input} placeholder="Age" autoCapitalize="none" onChangeText={val => this.onChangeText('age', val)}/>
+                    {/**    Age input place holder      **/}
+                    <TextInput style={styles.input} placeholder="Age" autoCapitalize="none" onChangeText={val => this.onChangeText('age', val)}/>
 
-            {/**    Buttons container      **/}
-            <View style = {styles.btnContainer}>
-                {/**    Login btn      **/}
-                <TouchableOpacity style = {styles.userBtn}>
-                    <Button color="black" style={styles.btnTxt} onPress={this.signUp} title="Create an account" />
-                </TouchableOpacity>
+                    {/**    Buttons container      **/}
+                    <View style = {styles.btnContainer}>
+                        {/**    Login btn      **/}
+                        <TouchableOpacity style = {styles.userBtn}>
+                            <Button color="black" style={styles.btnTxt} onPress={this.signUp} title="Create an account" />
+                        </TouchableOpacity>
+                    </View>
+
+                    {/**    Go to login link    **/}
+                    <View style={styles.buttonStyle}>
+                        <Text style={styles.account}>Already have an account?</Text>
+                        <Button color="#FFD700" onPress={() => this.props.navigation.navigate('Login')} title='Login' />
+                    </View>
+                </ImageBackground>
             </View>
-
-            {/**    Go to login link    **/}
-            <View style={styles.buttonStyle}>
-                <Text style={styles.account}>Already have an account?</Text>
-                <Button color="#FFD700" onPress={() => this.props.navigation.navigate('Login')} title='Login' />
-            </View>
-        </ImageBackground>
-      </View>
-    )
-  }
+        )
+    }
 }
 
   {/**    styles     **/}
