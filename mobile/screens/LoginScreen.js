@@ -12,6 +12,16 @@ import {
 } from 'react-native';
 
 
+const values = {
+  username: '',
+  password: ''
+}
+
+const loginAction = () => {
+  console.log(values.username + ' ' + values.password)
+}
+
+
 const LoginPage = ({ navigation }) => {
     return (
       <View style={styles.container}>
@@ -25,6 +35,7 @@ const LoginPage = ({ navigation }) => {
         <TextInput
           style={styles.input}
           placeholder="Username"
+          onChangeText = {(val) => values.username = val}
           />
 
           {/**    Password input place holder      **/}
@@ -32,6 +43,8 @@ const LoginPage = ({ navigation }) => {
             style={styles.input}
             placeholder="Password"
             secureTextEntry
+            onChangeText = {(val) => values.password = val}
+
             />
 
           {/**    Buttons container      **/}
@@ -39,13 +52,15 @@ const LoginPage = ({ navigation }) => {
 
             {/**    Login btn      **/}
             <TouchableOpacity
-            style = {styles.userBtn}>
+            style = {styles.userBtn}
+            onPress={loginAction}>
               <Text style={styles.btnTxt}>Login</Text>
             </TouchableOpacity>
 
             {/**    Signop btn      **/}
             <TouchableOpacity
-              style = {styles.userBtn}>
+              style = {styles.userBtn}
+              onPress = {() => navigation.navigate('Signup')} >
               <Text style = {styles.btnTxt}>Signup</Text>
             </TouchableOpacity>
 
@@ -73,7 +88,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     margin: 10,
     color: "#FFF",
-    
+
 
   },
   input: {
