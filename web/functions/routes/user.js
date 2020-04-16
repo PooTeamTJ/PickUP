@@ -48,12 +48,19 @@ db.doc(`/users/${newUser.email}`).get()
                     userId = data.user.uid
 
                     const userCredentials = {
+                        bio: '',
                         email: newUser.email,
                         createdAt: new Date().toISOString(),
                         userId: userId,
                         rating: 0.0,
                         age: 0,
-                        imageUrl: `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/${defaultImg}?alt=media`
+                        imageUrl: `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/${defaultImg}?alt=media`,
+                        location: '',
+                        zipcode: 0,
+                        eventCount: 0,
+                        badges: [
+                            "newbie"
+                        ]
                     }
                     return db.doc(`/users/${newUser.email}`).set(userCredentials)
                         .then(data => {
@@ -101,7 +108,7 @@ exports.login = (req, res) => {
             if (data.user.emailVerified)
                 return data.user.getIdToken();
             else 
-                return res.status(400).json({message: "please verify your email address"})
+                return res.status(403).json({message: "please verify your email address"})
         })
         .then(token => {
             return res.json({token});
@@ -109,7 +116,7 @@ exports.login = (req, res) => {
         .catch(err => {
             console.log(err)
 
-            if (err.code === "auth/wrong-password") return res.status(403).json({ message: 'Invalid Credentials'})
+            if (err.code === "auth/wrong-password" || err.code === "auth/user-not-found") return res.status(403).json({ message: 'Invalid Credentials'})
 
             else return res.status(500).json({ message: err.code})
         })
