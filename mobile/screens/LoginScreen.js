@@ -1,6 +1,6 @@
 {/** Login screen. For any questions contact Zeke at Itzikefraim6@gmail.com **/}
 
-import React, {component} from 'react';
+import React, {Component} from 'react';
 import {
   StyleSheet,
   Text,
@@ -11,8 +11,22 @@ import {
   ImageBackground
 } from 'react-native';
 
+export default class LoginPage extends Component{
 
-const LoginPage = ({ navigation }) => {
+  state = {
+    username: '', password: ''
+  }
+
+
+  login = () => {
+    console.log(this.state.username + ' ' + this.state.password)
+
+  }
+
+
+
+render() {
+
     return (
       <View style={styles.container}>
       {/**    background img      **/}
@@ -25,6 +39,7 @@ const LoginPage = ({ navigation }) => {
         <TextInput
           style={styles.input}
           placeholder="Username"
+          onChangeText = {(text) => this.setState({username: text})}
           />
 
           {/**    Password input place holder      **/}
@@ -32,6 +47,8 @@ const LoginPage = ({ navigation }) => {
             style={styles.input}
             placeholder="Password"
             secureTextEntry
+            onChangeText = {(text) => this.setState({password: text})}
+
             />
 
           {/**    Buttons container      **/}
@@ -39,13 +56,17 @@ const LoginPage = ({ navigation }) => {
 
             {/**    Login btn      **/}
             <TouchableOpacity
-            style = {styles.userBtn}>
+            style = {styles.userBtn}
+            onPress = {this.login}
+            >
               <Text style={styles.btnTxt}>Login</Text>
+
             </TouchableOpacity>
 
             {/**    Signup btn      **/}
             <TouchableOpacity
-              style = {styles.userBtn}>
+              style = {styles.userBtn}
+              onPress = {() => this.props.navigation.navigate('Signup')} >
               <Text style = {styles.btnTxt}>Signup</Text>
             </TouchableOpacity>
 
@@ -54,8 +75,9 @@ const LoginPage = ({ navigation }) => {
       </View>
     )
   }
+}
 
-  {/**    styles     **/}
+{/**    styles     **/}
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -73,7 +95,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     margin: 10,
     color: "#FFF",
-    
+
 
   },
   input: {
@@ -97,5 +119,3 @@ const styles = StyleSheet.create({
   width: "90%"
 }
 })
-
-export default LoginPage
