@@ -1,26 +1,38 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
+import Toolbar from '@material-ui/core/Toolbar';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+// Pages and Components
+import NavBar from './components/navbar'
+import NotFoundPage from './pages/404';
+import SignInSide from './pages/SignInSide';
+import AboutPage from './pages/MainPage';
+import SignUp from './pages/SignUP';
+import Settings from './pages/Settings';
+import Profile from './pages/Profile'
+
+class App extends React.Component {
+
+  render () {
+    return (
+      <div className='App'>
+        <Router>
+          <NavBar/>
+          <Toolbar/>
+          <Switch>
+            <Route exact path='/' component={AboutPage} />
+            <Route exact path='/login' component={SignInSide} />
+            <Route exact path='/404' component={NotFoundPage} />
+            <Route exact path='/register' component={SignUp} />
+            <Route exact path='/settings' component={Settings} />
+            <Route exact path='/profile' component={Profile} />
+            <Redirect to='/404' />
+          </Switch>
+        </Router>
+      </div>
+    );
+  };
+};
 
 export default App;
