@@ -1,7 +1,6 @@
 import { 
     EDIT_USER,
     LOGIN_USER,
-    LOGIN_SUCCESS,
     LOGIN_FAIL,
     LOGOUT_USER,
     REGISTER_USER,
@@ -49,12 +48,34 @@ export const loginUser = ({email, password}) => dispatch => {
 
     const body = JSON.stringify({email, password});
 
+    // This call authenticates user and returns JWT from firebase
     axios.post('https://us-central1-pickup-proj.cloudfunctions.net/api/login', body, config)
         .then(res => {
             console.log(res)
-            dispatch({
-                type:LOGIN_USER,
-                payload: {},
+            let token = res.data.token;
+
+            let auth = {
+                headers: {
+                    'Content-type': 'application/json',
+                    'Authorization': 'Bearer ' + token,
+                    'Access-Control-Allow-Headers': 'Content-type, authorization'
+                }
+            }
+
+            // Sends JWT to middleware to decode and then retrieves use data from database
+            axios.get('https://us-central1-pickup-proj.cloudfunctions.net/api/user', auth)
+            .then(res => {
+                let user = {token, ...res.data.credentials}
+                console.log(user)
+                dispatch({
+                    type: LOGIN_USER,
+                    payload: {...user}
+                })
+            })
+            .catch(err => {
+                dispatch({
+                    type: LOGIN_FAIL
+                })
             })
         })
         .catch(err => {
@@ -62,29 +83,13 @@ export const loginUser = ({email, password}) => dispatch => {
                 type: LOGIN_FAIL,
             })
         })
-
-    // return (dispatch, getState) => {
-    //     // make database call
-    //     dispatch({
-    //         type: LOGIN_USER,
-    //         payload: {
-    //             // response from databse
-    //             email,
-    //             password,
-    //             isAuth: true
-    //         }
-    //     })
-    // }
 }
 
 export const logoutUser = () => {
     return {
         type: LOGOUT_USER,
         payload: {
-            email: null,
-            password: null,
-            isAuth: false,
-            
+            token: null     
         }
     }
 }

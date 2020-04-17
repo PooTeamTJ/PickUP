@@ -1,14 +1,23 @@
-import { LOGIN_USER, REGISTER_USER } from '../actions/types';
+import { LOGOUT_USER, LOGIN_USER, REGISTER_USER } from '../actions/types';
 
 const initState = {
     token: null,
+    age: null,
+    badges: [],
+    bio: null,
+    createdAt: null,
     email: null,
-    name: null, 
-    isAuth: false,
+    eventCount: null,
+    imageUrl: null,
+    location: null,
+    name: null,
     rating: null,
+    userId: null,
+    zipcode: null,
 }
 
 const userReducer = (state = initState, action) => {
+    console.log(action.type)
     switch (action.type) { 
         case REGISTER_USER: {
             let user = action.payload
@@ -18,12 +27,22 @@ const userReducer = (state = initState, action) => {
             }
         }
         case LOGIN_USER: {
+            console.log('LOGIN_USER')
             return {
-                ...state,
-                token: action.payload
+                ...action.payload,
             }
         }
-        default: return state;
+        case LOGOUT_USER: {
+            console.log('LOGOUT_USER')
+            return {
+                ...state,
+                token: action.payload.token
+            }
+        }
+        default: {
+            console.log('DEFAULT')
+            return state;
+        }
     }
 }
 

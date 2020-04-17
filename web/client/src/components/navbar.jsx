@@ -30,7 +30,7 @@ export default function MenuAppBar() {
                     <Typography edge="start" variant="h4" className={classes.title}>
                         <Link to='/' style={{ textDecoration: 'none', color: '#fff'}}>PickUP</Link>
                     </Typography>
-                    {state.user.isAuth ? (
+                    {state.user.token ? (
                         <div>
                             {/* <Button>
                                 <Link to='/profile' style={{ textDecoration: 'none', color: '#c4c4c4'}}>Edit Profile</Link>

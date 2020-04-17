@@ -11,7 +11,7 @@ class Settings extends React.Component {
         const history = this.props.history;
 
         return(
-            this.props.user.isAuth ? (
+            this.props.user.token ? (
                 <div>
                     <Grid container component="main">
                         <Grid item>

@@ -32,7 +32,7 @@ export default function ClippedDrawer() {
       >
         <Toolbar />
         <div className={classes.drawerContainer}>
-          <Avatar className={classes.avatar}>P</Avatar>
+          <Avatar className={classes.avatar} src={store.user.imageUrl}>P</Avatar>
           <Typography component="h1" variant="h5" className={classes.name}>
             {store.user.name}
           </Typography>

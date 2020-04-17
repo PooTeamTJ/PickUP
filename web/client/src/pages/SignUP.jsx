@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import signupImage from '../images/Basketballplayers.png'
-import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { registerUser } from '../actions/userActions'
 
@@ -18,7 +17,6 @@ import { makeStyles } from '@material-ui/core/styles';
 
 export default function SignInSide() {
   const classes = useStyles();
-  const history = useHistory();
   const dispatch = useDispatch();
 
   const [name, setName] = React.useState("");
@@ -32,7 +30,6 @@ export default function SignInSide() {
     dispatch(registerUser({name, email, password, confirmPassword}))
     setPassword('')
     setConfirmPassword('')
-    // history.push('/login')
   }
 
   return (

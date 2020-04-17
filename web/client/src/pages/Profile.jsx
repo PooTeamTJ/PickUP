@@ -51,7 +51,7 @@ export default function Profile() {
     }
 
     return (
-        store.user.isAuth ? (
+        store.user.token ? (
             <div className={classes.root}>
                 <CssBaseline />
                 <Paper className={classes.paper}>
