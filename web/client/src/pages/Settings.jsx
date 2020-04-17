@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import SideBar from '../components/sidebar'
+
+// Material UI Imports
 import { Grid, Typography } from '@material-ui/core';
 
 class Settings extends React.Component {
