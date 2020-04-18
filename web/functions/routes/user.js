@@ -9,6 +9,7 @@ exports.signUp = (req,res) => {
         body of the request we sent
     */
     const newUser = {
+        name: req.body.name,
         email: req.body.email,
         password: req.body.password,
         confirmPassword: req.body.confirmPassword
@@ -49,6 +50,7 @@ db.doc(`/users/${newUser.email}`).get()
 
                     const userCredentials = {
                         bio: '',
+                        name: newUser.name,
                         email: newUser.email,
                         createdAt: new Date().toISOString(),
                         userId: userId,

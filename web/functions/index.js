@@ -10,11 +10,18 @@ const { editUserDetails, getUserDetails, anotherUserDetails} = require ('./route
 const {updateEmail, updatePassword} = require('./routes/emailPasswordUpdate')
 const {addRating} = require('./routes/reviewRating')
 const auth = require('./middleware/auth')
-
 const cors = require('cors')
-const app = express();
 
-app.options('*', cors())
+
+
+
+
+
+
+const app = express();
+app.options("*", cors())
+
+
 // no need to pass any parameters beacause of .firebasesrc
 // admin.initializeApp();
 

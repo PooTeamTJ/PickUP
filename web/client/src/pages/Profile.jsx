@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { editUser } from '../actions/userActions';
 
+// Material UI Imports
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles, Avatar, Paper, Typography, IconButton, TextField } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
@@ -50,7 +51,7 @@ export default function Profile() {
     }
 
     return (
-        store.user.isAuth ? (
+        store.user.token ? (
             <div className={classes.root}>
                 <CssBaseline />
                 <Paper className={classes.paper}>

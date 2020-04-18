@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import SideBar from '../components/sidebar'
+
+// Material UI Imports
 import { Grid, Typography } from '@material-ui/core';
 
 class Settings extends React.Component {
@@ -9,7 +11,7 @@ class Settings extends React.Component {
         const history = this.props.history;
 
         return(
-            this.props.user.isAuth ? (
+            this.props.user.token ? (
                 <div>
                     <Grid container component="main">
                         <Grid item>

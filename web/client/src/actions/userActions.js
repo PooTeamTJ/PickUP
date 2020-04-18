@@ -1,4 +1,98 @@
-import { EDIT_USER } from './types'
+import { 
+    EDIT_USER,
+    LOGIN_USER,
+    LOGIN_FAIL,
+    LOGOUT_USER,
+    REGISTER_USER,
+    REGISTER_FAIL
+} from './types'
+
+import axios from 'axios';
+
+export const registerUser = ({name, email, password, confirmPassword}) => dispatch => {
+    const config = {
+        headers: {
+            "Content-type": "application/json"
+         }
+    }
+
+    console.log(name, email, password, confirmPassword)
+
+    const body = JSON.stringify({name, email, password, confirmPassword})
+
+    axios.post('https://us-central1-pickup-proj.cloudfunctions.net/api/signup', body, config)
+        .then(res => {
+            dispatch({
+                type: REGISTER_USER,
+                payload: res.data
+            })
+            console.log(res)
+        })
+        .catch(err => {
+            console.log(err.response)
+            dispatch({
+                type: REGISTER_FAIL,
+                payload: err.response.data
+            })
+        })
+}
+
+export const loginUser = ({email, password}) => dispatch => {
+    console.log(email, password)
+
+    const config = {
+        headers: {
+            "Content-type": "application/json"
+        }
+    }
+
+    const body = JSON.stringify({email, password});
+
+    // This call authenticates user and returns JWT from firebase
+    axios.post('https://us-central1-pickup-proj.cloudfunctions.net/api/login', body, config)
+        .then(res => {
+            console.log(res)
+            let token = res.data.token;
+
+            let auth = {
+                headers: {
+                    'Content-type': 'application/json',
+                    'Authorization': 'Bearer ' + token,
+                    'Access-Control-Allow-Headers': 'Content-type, authorization'
+                }
+            }
+
+            // Sends JWT to middleware to decode and then retrieves use data from database
+            axios.get('https://us-central1-pickup-proj.cloudfunctions.net/api/user', auth)
+            .then(res => {
+                let user = {token, ...res.data.credentials}
+                console.log(user)
+                dispatch({
+                    type: LOGIN_USER,
+                    payload: {...user}
+                })
+            })
+            .catch(err => {
+                dispatch({
+                    type: LOGIN_FAIL
+                })
+            })
+        })
+        .catch(err => {
+            dispatch({
+                type: LOGIN_FAIL,
+            })
+        })
+}
+
+export const logoutUser = () => {
+    return {
+        type: LOGOUT_USER,
+        payload: {
+            token: null     
+        }
+    }
+}
 
 export const editUser = (property, value) => {
 
@@ -20,6 +114,7 @@ export const editUser = (property, value) => {
                     value
                 }
             }
+        
         default:
             return {
                 type: EDIT_USER,
