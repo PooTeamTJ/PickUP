@@ -1,27 +1,14 @@
 import React from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { logoutUser } from '../actions/userActions'
+
+// Material UI Imports
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import { Link, useHistory } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { logoutUser } from '../actions/authActions'
 import { Button } from '@material-ui/core';
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  title: {
-    flexGrow: 1,
-  },
-  appbar: {
-    zIndex: theme.zIndex.drawer + 1,
-  },
-}));
 
 export default function MenuAppBar() {
     
@@ -43,7 +30,7 @@ export default function MenuAppBar() {
                     <Typography edge="start" variant="h4" className={classes.title}>
                         <Link to='/' style={{ textDecoration: 'none', color: '#fff'}}>PickUP</Link>
                     </Typography>
-                    {state.user.isAuth ? (
+                    {state.user.token ? (
                         <div>
                             {/* <Button>
                                 <Link to='/profile' style={{ textDecoration: 'none', color: '#c4c4c4'}}>Edit Profile</Link>
@@ -68,3 +55,18 @@ export default function MenuAppBar() {
         </div>
     );
 }
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+      flexGrow: 1,
+    },
+    menuButton: {
+      marginRight: theme.spacing(2),
+    },
+    title: {
+      flexGrow: 1,
+    },
+    appbar: {
+      zIndex: theme.zIndex.drawer + 1,
+    },
+  }));

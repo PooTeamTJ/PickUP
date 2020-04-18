@@ -1,13 +1,15 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+
+// Material UI Imports
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Toolbar from '@material-ui/core/Toolbar';
 import Avatar from '@material-ui/core/Avatar';
-import { useSelector } from 'react-redux';
 import Typography from '@material-ui/core/Typography';
 import { Button } from '@material-ui/core';
-import { Link } from 'react-router-dom';
 import StarIcon from '@material-ui/icons/Star';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import Grid from '@material-ui/core/Grid';
@@ -30,9 +32,9 @@ export default function ClippedDrawer() {
       >
         <Toolbar />
         <div className={classes.drawerContainer}>
-          <Avatar className={classes.avatar}>P</Avatar>
+          <Avatar className={classes.avatar} src={store.user.imageUrl}>P</Avatar>
           <Typography component="h1" variant="h5" className={classes.name}>
-            {store.user.name.first + ' ' + store.user.name.last}
+            {store.user.name}
           </Typography>
           <Grid container className={classes.rating}>
             <Grid item>{store.user.rating >= 1 ? (<StarIcon/>):(<StarBorderIcon/>)}</Grid>
