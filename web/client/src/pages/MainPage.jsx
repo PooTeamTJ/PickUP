@@ -3,20 +3,11 @@ import { connect } from 'react-redux'
 import Info from '../components/info';
 import SideBar from '../components/sidebar'
 import EventsList from '../components/eventsList'
-import { loadUser } from '../actions/userActions'
-import { loadEvents } from '../actions/eventActions'
 
 // Material UI Imports
 import { Grid } from '@material-ui/core';
 
 class mainPage extends React.Component {
-
-    componentDidMount() {
-        if (this.props.user.token) {
-            this.props.dispatch(loadUser(this.props.user.token))
-            this.props.dispatch(loadEvents())
-        }
-    }
     
     render() {   
         const history = this.props.history

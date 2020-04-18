@@ -94,9 +94,7 @@ export const loadUser = (token) => dispatch => {
         localStorage.removeItem('token')
         return {
             type: LOGOUT_USER,
-            payload: {
-                token: null     
-            }
+            payload: null
         }
     })
 }

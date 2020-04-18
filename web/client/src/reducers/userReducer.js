@@ -35,7 +35,7 @@ const userReducer = (state = initState, action) => {
             console.log('LOGOUT_USER')
             return {
                 ...state,
-                token: action.payload
+                token: null
             }
         }
         case EDIT_USER: {
