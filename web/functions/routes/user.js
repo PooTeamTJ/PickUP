@@ -24,7 +24,7 @@ exports.signUp = (req,res) => {
 */
 
 if (newUser.password !== newUser.confirmPassword){
-    return res.status(400).json({ message: "Passwords does not match. Please Check Again:)"})
+    return res.status(400).json({ message: "Passwords do not match. Please Check Again:)"})
 }
 
 else if (newUser.password.trim().length < 6){
