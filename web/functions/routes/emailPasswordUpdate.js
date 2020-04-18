@@ -12,10 +12,21 @@ exports.updateEmail = (req,res) => {
                 user.updateEmail(`${req.body.email}`)
                 .then(() => {
                             user.sendEmailVerification()
-                            return db.doc(`/users/${req.user.email}`).update({
+                            db.doc(`/users/${req.user.email}`).update({
                                 email: req.body.email
                             })
                             .then(() => {
+                                db.doc(`/users/${req.user.email}`).get()
+                                .then((doc) => {
+                                    if (doc.exists)
+                                    {
+                                        var data = doc.data()
+                                        db.doc(`/users/${req.body.email}`).set(data)
+                                        .then(() => {
+                                            db.doc(`/users/${req.user.email}`).delete()
+                                        })
+                                    }
+                                })
                                 return res.status(200).json({ message: "Succesfully updated"})
                             })
                         })
