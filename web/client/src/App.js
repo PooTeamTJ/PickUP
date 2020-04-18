@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import Toolbar from '@material-ui/core/Toolbar';
+import { connect } from 'react-redux'
 
 // Pages and Components
 import NavBar from './components/navbar'
@@ -11,8 +12,17 @@ import MainPage from './pages/MainPage';
 import SignUp from './pages/SignUP';
 import Settings from './pages/Settings';
 import Profile from './pages/Profile'
+import { loadUser } from './actions/userActions'
+import { loadEvents } from './actions/eventActions'
 
 class App extends React.Component {
+
+  componentDidMount() {
+    if (this.props.user.token) {
+        this.props.dispatch(loadUser(this.props.user.token))
+        this.props.dispatch(loadEvents())
+    }
+  }
 
   render () {
     return (
@@ -35,4 +45,10 @@ class App extends React.Component {
   };
 };
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+      user: state.user
+  }
+}
+
+export default connect(mapStateToProps)(App);
