@@ -1,5 +1,8 @@
 import React from "react";
 import { View, Button, StyleSheet, Text } from "react-native";
+import EventComponent from "../Components/eventComponent";
+import { Card, ListItem, Icon } from "react-native-elements";
+import YourEvents from "../Components/YourEvents";
 
 const HomeScreen = ({ navigation }) => {
   return (
@@ -11,6 +14,9 @@ const HomeScreen = ({ navigation }) => {
           title="Go to profile"
         />
       </View>
+      <View>
+        <YourEvents></YourEvents>
+      </View>
     </View>
   );
 };
@@ -18,13 +24,13 @@ const HomeScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   buttonStyle: {
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   title: {
     marginTop: 100,
     fontSize: 40,
-    justifyContent: "center"
-  }
+    justifyContent: "center",
+  },
 });
 
 export default HomeScreen;
