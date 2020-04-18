@@ -11,6 +11,7 @@ exports.updateEmail = (req,res) => {
 
                 user.updateEmail(`${req.body.email}`)
                 .then(() => {
+                            user.sendEmailVerification()
                             return db.doc(`/users/${req.user.email}`).update({
                                 email: req.body.email
                             })
