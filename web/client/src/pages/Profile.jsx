@@ -9,6 +9,7 @@ import { makeStyles, Avatar, Paper, Typography, IconButton, TextField } from '@m
 import EditIcon from '@material-ui/icons/Edit';
 import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
+import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 
 export default function Profile() {
     const classes = useStyles();
@@ -19,7 +20,9 @@ export default function Profile() {
     const [nameField = '', setNameField] = React.useState();
     const [EditEmail = false, setEditEmail] = React.useState();
     const [emailField = '', setEmailField] = React.useState();
-
+    const [EditBio = false, setEditBio] = React.useState();
+    const [bio = store.user.bio, setBio] = React.useState();
+    
     const onClick = (e) => {
         console.log(e.target)
         if (e.target.id === 'editName')
@@ -32,6 +35,10 @@ export default function Profile() {
             setEditEmail(!EditEmail);
             setEmailField('');
         }
+        else if (e.target.id === 'editBio')
+        {
+            setEditBio(!EditBio);
+        }
     }
 
     const handleSubmit = (e) => {
@@ -40,13 +47,19 @@ export default function Profile() {
         if (e.target.id === 'name')
         {
             setEditName(false);
-            dispatch(editUser(e.target.id, nameField));
+            dispatch(editUser(e.target.id, nameField, store.user));
         }
         else if (e.target.id === 'email')
         {
             console.log(e.target.id, emailField)
             setEditEmail(false);
-            dispatch(editUser(e.target.id, emailField))
+            dispatch(editUser(e.target.id, emailField, store.user.token))
+        }
+        else if (e.target.id === 'bio')
+        {
+            console.log(e.target.id, emailField)
+            setEditBio(false);
+            dispatch(editUser(e.target.id, bio, store.user))
         }
     }
 
@@ -55,12 +68,13 @@ export default function Profile() {
             <div className={classes.root}>
                 <CssBaseline />
                 <Paper className={classes.paper}>
-                    <Avatar className={classes.avatar}>{store.user.name.first}</Avatar>
+                    <Avatar className={classes.avatar} src={store.user.imageUrl}></Avatar>
+                    {/*Edit Name*/}
                     <div className={classes.namefield}>
                         {!EditName ? (
                             <div className={classes.namefield}>
-                                <Typography component="h1" variant="h5" className={classes.name}>{store.user.name.first + ' ' + store.user.name.last}</Typography>
-                                <IconButton className={classes.editbutton} id='editName' onClick={onClick}><EditIcon/></IconButton>
+                                <Typography component="h1" variant="h5" className={classes.name}>{store.user.name}</Typography>
+                                <IconButton className={classes.editbutton} id='editName' onClick={onClick}><EditIcon id='editName'/></IconButton>
                             </div>
                         ) : (
                             <form className={classes.namefield} id='name' onSubmit={handleSubmit}>
@@ -77,15 +91,16 @@ export default function Profile() {
                                     autoFocus
                                 />
                                 <IconButton className={classes.editbutton} type='submit'><CheckIcon/></IconButton>
-                                <IconButton className={classes.editbutton} id='editName' onClick={onClick}><ClearIcon/></IconButton>
+                                <IconButton className={classes.editbutton} id='editName' onClick={onClick}><ClearIcon id='editName'/></IconButton>
                             </form>
                         )}    
                     </div>
+                    {/* Edit Email: currently not working*/}
                     <div className={classes.namefield}>
                         {!EditEmail ? (
                             <div className={classes.namefield}>
                                 <Typography component="p" variant="p" className={classes.name}>{store.user.email}</Typography>
-                                <IconButton className={classes.editbutton} id='editEmail' onClick={onClick}><EditIcon/></IconButton>
+                                <IconButton className={classes.editbutton} id='editEmail' onClick={onClick}><EditIcon id='editEmail'/></IconButton>
                             </div>
                         ) : (
                             <form className={classes.namefield} id='email' onSubmit={handleSubmit}>
@@ -100,15 +115,40 @@ export default function Profile() {
                                     value={emailField}
                                     onChange={e => setEmailField(e.target.value)}
                                     autoFocus
-                                />
+                                    />
                                 <IconButton className={classes.editbutton} type='submit'><CheckIcon/></IconButton>
-                                <IconButton className={classes.editbutton} id='editEmail' onClick={onClick}><ClearIcon/></IconButton>
+                                <IconButton className={classes.editbutton} id='editEmail' onClick={onClick}><ClearIcon id='editEmail'/></IconButton>
                             </form>
                         )}
                         
                     </div>
-                </Paper>
-                
+                    {/* Edit Bio */}
+                    <div className={classes.namefield}>
+                        {!EditBio ? (
+                            <div className={classes.namefield}>
+                                <Typography component="p" variant="p" className={classes.name}>{store.user.bio}</Typography>
+                                <IconButton className={classes.editbutton} id='editBio' onClick={onClick}><EditIcon id='editBio'/></IconButton>
+                            </div>
+                        ) : (
+                            <form className={classes.namefield} id='bio' onSubmit={handleSubmit}>
+                                <TextareaAutosize
+                                    size='small'
+                                    variant='outlined'
+                                    margin='normal'
+                                    fullwidth
+                                    id='bio'
+                                    label='Bio'
+                                    value={bio}
+                                    onChange={e => setBio(e.target.value)}
+                                />
+                                <IconButton className={classes.editbutton} type='submit'><CheckIcon/></IconButton>
+                                <IconButton className={classes.editbutton} id='editBio' onClick={onClick}><ClearIcon id='editBio'/></IconButton>
+                            </form>
+                        )}
+                        
+                    </div>
+                    
+                </Paper>    
             </div>
         ) : (
             <div>{history.push('/')}</div>
@@ -140,6 +180,8 @@ const useStyles = makeStyles((theme) => ({
     namefield: {
         display: 'flex',
         alignItems: 'center',
+        marginLeft: '10px',
+        marginRight: '10px'
     },
     editbutton: {
         // height: theme.spacing(6),

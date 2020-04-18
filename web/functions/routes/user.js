@@ -61,7 +61,7 @@ db.doc(`/users/${newUser.email}`).get()
                         zipcode: 0,
                         eventCount: 0,
                         badges: [
-                            "newbie"
+                            "Newbie"
                         ]
                     }
                     return db.doc(`/users/${newUser.email}`).set(userCredentials)

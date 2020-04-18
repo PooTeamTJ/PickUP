@@ -23,6 +23,12 @@ export default function MenuAppBar() {
         history.push('/');
     }
 
+    const handleClick = (e) => {
+        console.log(e.target.id)
+        e.preventDefault();
+        history.push('/' + e.target.id)
+    }
+
     return (
         <div className={classes.root} >
             <AppBar className={classes.appbar}>
@@ -35,18 +41,18 @@ export default function MenuAppBar() {
                             {/* <Button>
                                 <Link to='/profile' style={{ textDecoration: 'none', color: '#c4c4c4'}}>Edit Profile</Link>
                             </Button> */}
-                            <Button>
-                                <Link to='/settings' style={{ textDecoration: 'none', color: '#fff'}}>Settings</Link>
+                            <Button id='settings' onClick={handleClick}>
+                                <Link id='settings' to='/settings' style={{ textDecoration: 'none', color: '#fff'}}>Settings</Link>
                             </Button>
                             <Button onClick={handleLogout} id='logout' style={{ textDecoration: 'none', color: '#fff'}}>Logout</Button>
                         </div>
                     ) : (
                         <div>
-                            <Button>
-                                <Link to='/login' style={{ textDecoration: 'none', color: '#fff'}}>Login</Link>
+                            <Button id='login' onClick={handleClick}>
+                                <Link id='login' to='/login' style={{ textDecoration: 'none', color: '#fff'}}>Login</Link>
                             </Button>
-                            <Button>
-                                <Link to='/register' style={{ textDecoration: 'none', color: '#fff'}}>Sign UP</Link>
+                            <Button id='register' onClick={handleClick}>
+                                <Link id='register' to='/register' style={{ textDecoration: 'none', color: '#fff'}}>Sign UP</Link>
                             </Button>
                         </div>
                     )}

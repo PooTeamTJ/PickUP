@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import Badges from './badges';
 
 // Material UI Imports
 import { makeStyles } from '@material-ui/core/styles';
@@ -19,7 +20,14 @@ const drawerWidth = 300;
 export default function ClippedDrawer() {
   const classes = useStyles();
   const store = useSelector(state => state);
-  console.log(store.user)
+  const history = useHistory();
+
+  const handleClick = (e) => {
+    console.log(e.target.id)
+    e.preventDefault();
+    history.push(e.target.id)
+  }
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -32,8 +40,8 @@ export default function ClippedDrawer() {
       >
         <Toolbar />
         <div className={classes.drawerContainer}>
-          <Avatar className={classes.avatar} src={store.user.imageUrl}>P</Avatar>
-          <Typography component="h1" variant="h5" className={classes.name}>
+          <Avatar className={classes.avatar} src={store.user.imageUrl} />
+          <Typography component="h1" variant="h5" className={classes.name}> 
             {store.user.name}
           </Typography>
           <Grid container className={classes.rating}>
@@ -43,12 +51,10 @@ export default function ClippedDrawer() {
             <Grid item>{store.user.rating >= 4 ? (<StarIcon/>):(<StarBorderIcon/>)}</Grid>
             <Grid item>{store.user.rating >= 5 ? (<StarIcon/>):(<StarBorderIcon/>)}</Grid>
           </Grid>
-          <Typography component="p" className={classes.name}>
-            Badges will go here
-          </Typography>
+          {/* <Badges /> */}
         </div>
-        <Button className={classes.editbutton} variant='contained' color='primary'>
-          <Link to='/profile' style={{ textDecoration: 'none', color: '#fff'}}>Edit Profile</Link>
+        <Button id='/profile' onClick={handleClick} className={classes.editbutton} variant='contained' color='primary'>
+          <Link id='/profile' to='/profile' style={{ textDecoration: 'none', color: '#fff'}}>Edit Profile</Link>
         </Button>
       </Drawer>
     </div>
@@ -58,6 +64,7 @@ export default function ClippedDrawer() {
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
+    justifyContent: 'center'
   },
   drawer: {
     width: drawerWidth,
@@ -69,8 +76,14 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
   },
   drawerContainer: {
-    overflow: 'auto',
-
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    justifySelf: 'center',
+    justifyItems: 'center',
+    alignContent: 'center',
+    alignSelf: 'center',
+    alignItems: 'center',
   },
   content: {
     flexGrow: 1,
@@ -81,6 +94,9 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.secondary.main,
     width: theme.spacing(15),
     height: theme.spacing(15),
+    justifySelf: 'center',
+    justifyContent: 'center',
+    justifyItems: 'center'
   },
   name: {
     textAlign: 'center',

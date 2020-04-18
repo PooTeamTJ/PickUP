@@ -1,27 +1,20 @@
+import {
+    LOAD_EVENTS,
+} from '../actions/types'
+
 const initState = {
-    events: [{
-        title: 'Basketball',
-        id: 0,
-        date: '01-01-2001',
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget.',
-    },
-    {
-        title: 'Basketball',
-        id: 1,
-        date: '01-01-2001',
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget.',
-    },
-    {
-        title: 'Basketball',
-        id: 2,
-        date: '01-01-2001',
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget.',
-    }
-    ]
+    events: []
 }
 
 const eventReducer = (state = initState, action) => {
-    return state
+    switch (action.type) {
+        case LOAD_EVENTS:
+            return {
+                events: action.payload
+            }
+        default:
+            return state
+    }
 }
 
 export default eventReducer
