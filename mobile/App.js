@@ -8,6 +8,7 @@ import AllEventsScreen from "./screens/AllEventsScreen";
 import LoginScreen from "./screens/LoginScreen";
 import SignUpScreen from "./screens/SignUpScreen";
 import EventComponent from "./Components/eventComponent";
+import CreateEvent from "./Components/createEvent";
 
 
 
@@ -23,6 +24,7 @@ export default function App() {
         <Drawer.Screen name="Profile" component={ProfileScreen} />
         <Drawer.Screen name="All Events" component={AllEventsScreen} />
         <Drawer.Screen name="Event" component={EventComponent} />
+        <Drawer.Screen name="Create Event" component={CreateEvent} />
 
       </Drawer.Navigator>
     </NavigationContainer>
