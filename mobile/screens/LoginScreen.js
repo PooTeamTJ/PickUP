@@ -40,7 +40,8 @@ export default class LoginPage extends Component {
 
         // logged in was successfull, store token
         if (res.token != null) {
-          AsyncStorage.setItem("token", res.token);
+          //console.log(res.token);
+          AsyncStorage.setItem("token", JSON.stringify(res.token));
           this.props.navigation.navigate("Home");
         } else {
           alert(res.message); // tell user the password specifications

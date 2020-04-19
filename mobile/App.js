@@ -9,8 +9,6 @@ import LoginScreen from "./screens/LoginScreen";
 import SignUpScreen from "./screens/SignUpScreen";
 import EventComponent from "./Components/eventComponent";
 
-
-
 const Drawer = createDrawerNavigator();
 
 export default function App() {
@@ -23,7 +21,6 @@ export default function App() {
         <Drawer.Screen name="Profile" component={ProfileScreen} />
         <Drawer.Screen name="All Events" component={AllEventsScreen} />
         <Drawer.Screen name="Event" component={EventComponent} />
-
       </Drawer.Navigator>
     </NavigationContainer>
   );
@@ -34,6 +31,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
-    justifyContent: "center"
-  }
+    justifyContent: "center",
+  },
 });
