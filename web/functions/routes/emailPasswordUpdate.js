@@ -4,17 +4,29 @@ const {db, admin} = require('../util/admin')
 
 exports.updateEmail = (req,res) => {
     const user = auth.currentUser;
-
+    console.log(user)
     if (req.body.email == req.user.email){
         return res.status(400).json({ message: "This is your current email"})
     }
 
                 user.updateEmail(`${req.body.email}`)
                 .then(() => {
-                            return db.doc(`/users/${req.user.email}`).update({
+                            user.sendEmailVerification()
+                            db.doc(`/users/${req.user.email}`).update({
                                 email: req.body.email
                             })
                             .then(() => {
+                                db.doc(`/users/${req.user.email}`).get()
+                                .then((doc) => {
+                                    if (doc.exists)
+                                    {
+                                        var data = doc.data()
+                                        db.doc(`/users/${req.body.email}`).set(data)
+                                        .then(() => {
+                                            db.doc(`/users/${req.user.email}`).delete()
+                                        })
+                                    }
+                                })
                                 return res.status(200).json({ message: "Succesfully updated"})
                             })
                         })

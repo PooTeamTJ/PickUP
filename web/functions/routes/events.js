@@ -66,8 +66,11 @@ exports.addNewEvent = (req, res) => {
         createdAt: new Date().toISOString(),
         maxPeople: req.body.maxPeople,
         location: req.body.location,
+        sport: req.body.sport,
         rosterCount: 0,
         waitList: 0,
+        rosterList: [],
+        waitArray:[]
     }
 
     db.collection('events').add(newEvent)

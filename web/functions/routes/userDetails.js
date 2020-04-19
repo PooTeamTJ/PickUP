@@ -10,12 +10,13 @@ exports.editUserDetails = (req, res) => {
     //     return res.status(400).json({ message: 'Too many words'})
     // }
     const userDetails = {
+        name: req.body.name,
         bio: req.body.bio,
         location: req.body.location,
         age: req.body.age
     }
 
-    db.doc(`users/${req.user.email}`).update(userDetails)
+    db.doc(`users/${req.body.email}`).update(userDetails)
     .then(() => {
         res.json({ message: 'Profile updates'})
     })

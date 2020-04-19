@@ -14,29 +14,29 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 export default function SimpleExpansionPanel() {
   const classes = useStyles();
   const store = useSelector(state => state);
-  console.log(store.event.events)
+
   return (
     <div className={classes.root}>
-      <Typography className={classes.pagetitle} component='h1' variant='h4'>Your Upcoming Events</Typography>
+      <Typography className={classes.pagetitle} component='h1' variant='h4'>Upcoming Events</Typography>
       {store.event.events.map((event) => (
-        <ExpansionPanel key={event.id}>
+        <ExpansionPanel key={event.eventId}>
           <ExpansionPanelSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1a-content"
             id="panel1a-header"
           >
-            <Grid container>
+            <Grid container spacing={1}>
               <Grid item xs={1}><SportsBasketballIcon /></Grid>
-              <Grid item xs={3}><Typography className={classes.heading}>{event.title}</Typography></Grid>
-              <Grid item xs={3}><Typography className={classes.date}>{event.date}</Typography></Grid>
-              <Grid item xs={3}><Typography>10 / 10 Players</Typography></Grid>
+              <Grid item xs={7}><Typography className={classes.heading}>{event.description}</Typography></Grid>
+              <Grid item xs={2}><Typography className={classes.date}>{event.date}</Typography></Grid>
+              <Grid item xs={2}><Typography>{event.rosterCount} / {event.maxPeople} Players</Typography></Grid>
             </Grid>
             
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
             <Grid container>
               <Grid item xs></Grid>
-              <Grid item><Typography>{event.description}</Typography></Grid>
+              <Grid item><Typography>{event.location}</Typography></Grid>
             </Grid>
           </ExpansionPanelDetails>
         </ExpansionPanel>
@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     paddingTop: '10px',
     paddingLeft: '50px',
-    width: '100%',
+    width: '70vw',
   },
   heading: {
     paddingLeft: '10px',

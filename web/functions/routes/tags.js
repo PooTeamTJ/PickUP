@@ -25,8 +25,10 @@ eventDoc.get()
          */
          eventData = doc.data();
          eventData.eventId = doc.id;
-         eventData.maxPeople = doc.data().maxPeople,
+         eventData.maxPeople = doc.data().maxPeople
          eventData.rosterCount = doc.data().rosterCount
+         eventData.rosterList = doc.data().rosterList
+         eventData.waitArray = doc.data().waitArray
 
          return tagDocRoster.get();
        }
@@ -54,7 +56,8 @@ eventDoc.get()
                         })
                         .then(() => {
                             eventData.rosterCount++
-                            return eventDoc.update({rosterCount: eventData.rosterCount})
+                            eventData.rosterList.push(req.user.name)
+                            return eventDoc.update({rosterCount: eventData.rosterCount, rosterList: eventData.rosterList})
                         })
                         .then(() => {
                             return res.json(eventData);
@@ -71,7 +74,8 @@ eventDoc.get()
                         })
                         .then(() => {
                             eventData.waitList++
-                            return eventDoc.update({waitList: eventData.waitList})
+                            eventData.waitArray.push(req.user.name)
+                            return eventDoc.update({waitList: eventData.waitList, waitArray: eventData.waitArray})
                         })
                         .then(() => {
                             return res.json(eventData);
@@ -126,7 +130,9 @@ exports.unEventTag = (req, res) => {
              eventData.eventId = doc.id;
              eventData.maxPeople = doc.data().maxPeople,
              eventData.rosterCount = doc.data().rosterCount
-    
+             eventData.rosterList = doc.data().rosterList
+             eventData.waitArray = doc.data().waitArray
+
              return tagDocRoster.get();
            }
     
@@ -152,7 +158,9 @@ exports.unEventTag = (req, res) => {
                         return db.doc(`/waitList/${data2.docs[0].id}`).delete()
                         .then(() => {
                             eventData.waitList--
-                            return eventDoc.update({ waitList: eventData.waitList})
+                            let i = eventData.waitArray.indexof(req.user.name)
+                            eventData.waitArray.splice(i, 1)
+                            return eventDoc.update({ waitList: eventData.waitList, waitArray: eventData.waitArray})
                         })
                         .then(() => {
                             return res.json(eventData)
@@ -169,7 +177,9 @@ exports.unEventTag = (req, res) => {
                     return db.doc(`/roster/${data.docs[0].id}`).delete()
                     .then(() => {
                         eventData.rosterCount--
-                        return eventDoc.update({ rosterCount: eventData.rosterCount})
+                        let i = eventData.rosterList.indexof(req.user.name)
+                        eventData.rosterList.splice(i, 1)
+                        return eventDoc.update({ rosterCount: eventData.rosterCount, rosterList: eventData.rosterList})
                     })
                     .then(() => {
                         return res.json(eventData)
@@ -199,7 +209,9 @@ exports.unEventTag = (req, res) => {
                                     })
                                     .then(() =>{
                                         eventData.waitList--
-                                        return eventDoc.update({ waitList: eventData.waitList})
+                                        let i = eventData.rosterList.indexof(req.user.name)
+                                        eventData.rosterList.splice(i, 1)
+                                        return eventDoc.update({ waitList: eventData.waitList, waitArray: eventData.waitArray})
                                     })
                                     .then(() => {
                                         return res.json(eventData)

@@ -1,7 +1,7 @@
-import { LOGOUT_USER, LOGIN_USER, REGISTER_USER } from '../actions/types';
+import { LOGOUT_USER, LOGIN_USER, REGISTER_USER, EDIT_USER } from '../actions/types';
 
 const initState = {
-    token: null,
+    token: localStorage.getItem('token'),
     age: null,
     badges: [],
     bio: null,
@@ -17,7 +17,6 @@ const initState = {
 }
 
 const userReducer = (state = initState, action) => {
-    console.log(action.type)
     switch (action.type) { 
         case REGISTER_USER: {
             let user = action.payload
@@ -36,7 +35,14 @@ const userReducer = (state = initState, action) => {
             console.log('LOGOUT_USER')
             return {
                 ...state,
-                token: action.payload.token
+                token: null
+            }
+        }
+        case EDIT_USER: {
+            console.log('EDIT_USER')
+            return {
+                ...state,
+                [action.payload.field]: action.payload.value
             }
         }
         default: {
