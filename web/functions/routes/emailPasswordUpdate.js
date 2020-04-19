@@ -4,7 +4,7 @@ const {db, admin} = require('../util/admin')
 
 exports.updateEmail = (req,res) => {
     const user = auth.currentUser;
-
+    console.log(user)
     if (req.body.email == req.user.email){
         return res.status(400).json({ message: "This is your current email"})
     }

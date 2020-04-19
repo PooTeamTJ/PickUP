@@ -140,45 +140,45 @@ export const editUser = (property, value, user) => dispatch => {
                     })
                 })
             break;
-            case 'name':  
-                console.log(body)
-                axios.post('https://us-central1-pickup-proj.cloudfunctions.net/api/user', body, auth)
-                    .then(res => {
-                        dispatch({
-                            type: EDIT_USER,
-                            payload: {
-                                field: 'name',
-                                value
-                            }
-                        })
+        case 'name':  
+            console.log(body)
+            axios.post('https://us-central1-pickup-proj.cloudfunctions.net/api/user', body, auth)
+                .then(res => {
+                    dispatch({
+                        type: EDIT_USER,
+                        payload: {
+                            field: 'name',
+                            value
+                        }
                     })
-                    .catch(err => {
-                        console.log(err.response)
-                        dispatch({
-                            type: EDIT_FAIL
-                        })
+                })
+                .catch(err => {
+                    console.log(err.response)
+                    dispatch({
+                        type: EDIT_FAIL
                     })
+                })
             break;
-            case 'bio':  
-                console.log(body)
-                axios.post('https://us-central1-pickup-proj.cloudfunctions.net/api/user', body, auth)
-                    .then(res => {
-                        dispatch({
-                            type: EDIT_USER,
-                            payload: {
-                                field: 'bio',
-                                value
-                            }
-                        })
+        case 'bio':  
+            console.log(body)
+            axios.post('https://us-central1-pickup-proj.cloudfunctions.net/api/user', body, auth)
+                .then(res => {
+                    dispatch({
+                        type: EDIT_USER,
+                        payload: {
+                            field: 'bio',
+                            value
+                        }
                     })
-                    .catch(err => {
-                        console.log(err.response)
-                        dispatch({
-                            type: EDIT_FAIL
-                        })
+                })
+                .catch(err => {
+                    console.log(err.response)
+                    dispatch({
+                        type: EDIT_FAIL
                     })
+                })
             break;
-            default:
+        default:
             return {
                 type: EDIT_USER,
                 payload: {
@@ -188,3 +188,21 @@ export const editUser = (property, value, user) => dispatch => {
     }
    
 }
+
+export const imageUpload = (file, user) => dispatch => {
+    const auth = {
+        headers: {
+            'Content-type': 'application/json',
+            'Authorization': 'Bearer ' + user.token,
+            'Access-Control-Allow-Headers': 'Content-type, authorization'
+        }
+    } 
+
+    axios.post('https://us-central1-pickup-proj.cloudfunctions.net/api/user/imageUpload', file, auth)
+        .then(res => {
+            console.log(res)
+        })
+        .catch(err => {
+            console.log(err.response)
+        })
+} 

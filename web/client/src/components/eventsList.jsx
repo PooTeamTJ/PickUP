@@ -17,7 +17,7 @@ export default function SimpleExpansionPanel() {
 
   return (
     <div className={classes.root}>
-      <Typography className={classes.pagetitle} component='h1' variant='h4'>Your Upcoming Events</Typography>
+      <Typography className={classes.pagetitle} component='h1' variant='h4'>Upcoming Events</Typography>
       {store.event.events.map((event) => (
         <ExpansionPanel key={event.eventId}>
           <ExpansionPanelSummary

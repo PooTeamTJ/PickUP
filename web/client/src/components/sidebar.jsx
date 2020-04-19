@@ -51,7 +51,7 @@ export default function ClippedDrawer() {
             <Grid item>{store.user.rating >= 4 ? (<StarIcon/>):(<StarBorderIcon/>)}</Grid>
             <Grid item>{store.user.rating >= 5 ? (<StarIcon/>):(<StarBorderIcon/>)}</Grid>
           </Grid>
-          {/* <Badges /> */}
+          <Badges />
         </div>
         <Button id='/profile' onClick={handleClick} className={classes.editbutton} variant='contained' color='primary'>
           <Link id='/profile' to='/profile' style={{ textDecoration: 'none', color: '#fff'}}>Edit Profile</Link>

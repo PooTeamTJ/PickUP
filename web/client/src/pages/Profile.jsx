@@ -1,11 +1,11 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { editUser } from '../actions/userActions';
+import { editUser, imageUpload } from '../actions/userActions';
 
 // Material UI Imports
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { makeStyles, Avatar, Paper, Typography, IconButton, TextField } from '@material-ui/core';
+import { makeStyles, Avatar, Paper, Typography, IconButton, TextField, Button } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
@@ -22,6 +22,7 @@ export default function Profile() {
     const [emailField = '', setEmailField] = React.useState();
     const [EditBio = false, setEditBio] = React.useState();
     const [bio = store.user.bio, setBio] = React.useState();
+    const [img = null, setImg] = React.useState();
     
     const onClick = (e) => {
         console.log(e.target)
@@ -42,7 +43,6 @@ export default function Profile() {
     }
 
     const handleSubmit = (e) => {
-        console.log(e.target)
         e.preventDefault();
         if (e.target.id === 'name')
         {
@@ -53,13 +53,18 @@ export default function Profile() {
         {
             console.log(e.target.id, emailField)
             setEditEmail(false);
-            dispatch(editUser(e.target.id, emailField, store.user.token))
+            dispatch(editUser(e.target.id, emailField, store.user))
         }
         else if (e.target.id === 'bio')
         {
             console.log(e.target.id, emailField)
             setEditBio(false);
             dispatch(editUser(e.target.id, bio, store.user))
+        }
+        else if (e.target.id === 'image')
+        {
+            console.log(e.target.files[0])
+            dispatch(imageUpload(e.target.id, e.target.files[0], store.user))
         }
     }
 
@@ -68,7 +73,9 @@ export default function Profile() {
             <div className={classes.root}>
                 <CssBaseline />
                 <Paper className={classes.paper}>
-                    <Avatar className={classes.avatar} src={store.user.imageUrl}></Avatar>
+                    <Avatar className={classes.avatar} src={store.user.imageUrl} ></Avatar>
+                    <input id='image' type='file' onChange={handleSubmit} style={{display: 'none'}} ref={fileInput => setImg(fileInput)}/>
+                    <Button variant="contained" color="primary" onClick={() => img.click()}>Upload</Button>
                     {/*Edit Name*/}
                     <div className={classes.namefield}>
                         {!EditName ? (
@@ -99,7 +106,7 @@ export default function Profile() {
                     <div className={classes.namefield}>
                         {!EditEmail ? (
                             <div className={classes.namefield}>
-                                <Typography component="p" variant="p" className={classes.name}>{store.user.email}</Typography>
+                                <Typography component="p" variant="body1" className={classes.name}>{store.user.email}</Typography>
                                 <IconButton className={classes.editbutton} id='editEmail' onClick={onClick}><EditIcon id='editEmail'/></IconButton>
                             </div>
                         ) : (
@@ -169,6 +176,7 @@ const useStyles = makeStyles((theme) => ({
     },
     avatar: {
         marginTop: theme.spacing(5),
+        marginBottom: theme.spacing(2),
         backgroundColor: theme.palette.secondary.main,
         width: theme.spacing(25),
         height: theme.spacing(25),
