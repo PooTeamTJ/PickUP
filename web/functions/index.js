@@ -15,8 +15,12 @@ const cors = require('cors')
 
 
 
+
+
+
 const app = express();
 app.options("*", cors())
+
 
 // no need to pass any parameters beacause of .firebasesrc
 // admin.initializeApp();
