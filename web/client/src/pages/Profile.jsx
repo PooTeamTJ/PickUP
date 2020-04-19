@@ -64,7 +64,7 @@ export default function Profile() {
         else if (e.target.id === 'image')
         {
             console.log(e.target.files[0])
-            dispatch(imageUpload(e.target.id, e.target.files[0], store.user))
+            dispatch(imageUpload(e.target.files[0], store.user))
         }
     }
 

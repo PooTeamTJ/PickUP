@@ -192,15 +192,20 @@ export const editUser = (property, value, user) => dispatch => {
 export const imageUpload = (file, user) => dispatch => {
     const auth = {
         headers: {
-            'Content-type': 'application/json',
+            'Content-type': 'multipart/form-data', 
             'Authorization': 'Bearer ' + user.token,
             'Access-Control-Allow-Headers': 'Content-type, authorization'
         }
     } 
 
-    axios.post('https://us-central1-pickup-proj.cloudfunctions.net/api/user/imageUpload', file, auth)
+    var formData = new FormData();
+    formData.append('profileImage', file)
+    console.log(file)
+
+    axios.post('https://us-central1-pickup-proj.cloudfunctions.net/api/user/imageUpload', formData, auth)
         .then(res => {
             console.log(res)
+            dispatch(loadUser(user.token))
         })
         .catch(err => {
             console.log(err.response)
