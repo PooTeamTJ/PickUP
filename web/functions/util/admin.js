@@ -6,26 +6,26 @@
     4. FireBase FiRRRRRRRRRRRRE
 */
 
-const admin = require('firebase-admin')
-const config = require('./config')
-const firebase = require('firebase')
-const serviceAccount = require("./pickup-proj-firebase-adminsdk-tb36d-faf6e605d5.json")
+const admin = require("firebase-admin");
+const config = require("./config");
+const firebase = require("firebase");
+const serviceAccount = require("./pickup-proj-firebase-adminsdk-tb36d-faf6e605d5.json");
 
 /*
     Intializing our app and admin for the first time
 */
 
 admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-    databaseURL: `${config.databaseURL}`,
-    storageBucket: `${config.storageBucket}`
-})
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: `${config.databaseURL}`,
+  storageBucket: `${config.storageBucket}`,
+});
 
-firebase.initializeApp(config)
+firebase.initializeApp(config);
 /*
   This is our Database
 */
 
 const db = admin.firestore();
 
-module.exports = { admin, db};
+module.exports = { admin, db };
