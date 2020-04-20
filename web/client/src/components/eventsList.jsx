@@ -26,9 +26,16 @@ export default function SimpleExpansionPanel() {
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
   }
+
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+  const formatTimeDate = (time, date) => {
+    var _date = date.split('-', 3)
+    var month = months[parseInt(_date[0])]
+    return month + ' ' + _date[1] + ', ' + _date[2] + ' at ' + time
+  }
+
   const getIcon = (sport) => {
     if (sport) var _sport = sport.toLowerCase()
-    console.log(_sport)
     switch(_sport) {
       case 'basketball': return (<SportsBasketballIcon />)
       case 'football': return (<SportsFootballIcon />)
@@ -50,8 +57,8 @@ export default function SimpleExpansionPanel() {
           >
             <Grid container spacing={1}>
               <Grid item xs={1}>{getIcon(event.sport)}</Grid>
-              <Grid item xs={7}><Typography className={classes.heading}>{event.description}</Typography></Grid>
-              <Grid item xs={2}><Typography className={classes.date}>{event.date}</Typography></Grid>
+              <Grid item xs={6}><Typography className={classes.heading}>{event.description}</Typography></Grid>
+              <Grid item xs={3}><Typography className={classes.date}>{formatTimeDate(event.time, event.date)}</Typography></Grid>
               <Grid item xs={2}><Typography>{event.rosterCount} / {event.maxPeople} Players</Typography></Grid>
             </Grid>
             
