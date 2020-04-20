@@ -70,7 +70,7 @@ exports.addNewEvent = (req, res) => {
         time: req.body.time,
         date: req.body.date, 
         rosterCount: 0,
-        waitList: 0,
+        waitList: 0
     }
 
     db.collection('events').add(newEvent)
