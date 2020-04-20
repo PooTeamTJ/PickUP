@@ -71,8 +71,6 @@ exports.addNewEvent = (req, res) => {
         date: req.body.date, 
         rosterCount: 0,
         waitList: 0,
-        rosterList: [],
-        waitArray:[]
     }
 
     db.collection('events').add(newEvent)
