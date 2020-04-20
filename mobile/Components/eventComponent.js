@@ -8,9 +8,11 @@ import {
   StatusBar,
   ImageBackground,
   FlatList,
+  AsyncStorage
 } from "react-native";
 
 export default class EventComponent extends Component {
+
   constructor(props) {
     super(props);
   }
@@ -25,8 +27,25 @@ export default class EventComponent extends Component {
     userIdState: null,
     userImageState: null,
     waitListState: null,
+    timeState: null,
     err: null,
+    dateState: null,
+    sportState: null
   };
+
+  async getUserToken(key) {
+    try {
+      // need to wait to get token because render will load before lifecycle method
+      const retrievedItem = await AsyncStorage.getItem(key);
+
+      const token = JSON.parse(retrievedItem);
+      return token;
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
 
   addPerson = () => {
     if (this.state.rosterCountState == this.maxPeopleState) {
@@ -48,26 +67,38 @@ export default class EventComponent extends Component {
     }
   };
 
+
+
+
   // here we get all the info from the data base by calling the route from backend
-  getEvent = () => {
+  async getEvent  ()  {
+   // var item = await AsyncStorage.getItem('token')
+   // var token = JSON.parse(item)
+   var token = await this.getUserToken('token')
+
     fetch(
-      "https://us-central1-pickup-proj.cloudfunctions.net/api/events/GNLHb6HOvPl56tK2VEz2",
+       `https://us-central1-pickup-proj.cloudfunctions.net/api/events/${this.props.eventID}`, //GNLHb6HOvPl56tK2VEz2,
       {
         method: "GET",
-        headers: new Headers({
-          Authorization:
-            "Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IjBiYWJiMjI0NDBkYTAzMmM1ZDAwNDJjZGFhOWQyODVjZjhkMjAyYzQiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vcGlja3VwLXByb2oiLCJhdWQiOiJwaWNrdXAtcHJvaiIsImF1dGhfdGltZSI6MTU4NzE2Mzk0MCwidXNlcl9pZCI6Imt3dm8xNlowd0ZVZUdOMVVVeEhJVEpIVDVHbzEiLCJzdWIiOiJrd3ZvMTZaMHdGVWVHTjFVVXhISVRKSFQ1R28xIiwiaWF0IjoxNTg3MTYzOTQwLCJleHAiOjE1ODcxNjc1NDAsImVtYWlsIjoic2FpdGVqYXNtb3B1cmlAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsic2FpdGVqYXNtb3B1cmlAZ21haWwuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoicGFzc3dvcmQifX0.Tz18WPhrHpyKaldJk8N2nobRufB2yAf6DIsHI98VuSCGgpdLyekRRRKF8kHF3m6iax20ag8eYgf2As4BppwDJLyDvUFMyvLeSc-RLJATiDC_MI0p0ahsk5BguZw3JnjeN_d9Y3WI30rSOtyU8_9ETUxKyiuBrx3dHTm2FQAtWdz69P-ppF9A_svigBWkcxPqkamLo2aDqnIQrbIK_6RavqKhANiq7BLk_NMqfxM8cJxhYEWtIwnIQjkD0HgFuKSCPcDS7IIqTpTFMdmbdfM9lVHSEKJadDa30YZOSHHo29CTZmgN_NjjR94ocsYT6apyRLLC451GZF-j-khwwSJBFQ",
-        }),
+        headers: {
+          'Authorization': 'Bearer ' + token
+
+          }
       }
     )
-      .then((response) => response.json())
+    .then((response) => response.json())
 
-      .then((json) => {
+    .then((x) => {
+      console.log(x)
+
         this.setState({
-          rosterCountState: json.rosterCount,
-          locationState: json.location,
-          maxPeopleState: json.maxPeople,
-          waitListState: json.maxPeople,
+          rosterCountState: x.rosterCount,
+          locationState: x.location,
+          maxPeopleState: x.maxPeople,
+          waitListState: x.maxPeople,
+          timeState: x.time,
+          dateState: x.date,
+          sportState: x.sport
         });
       })
 
@@ -92,23 +123,22 @@ export default class EventComponent extends Component {
         <View style={styles.container}>
           {/** Here we get the event name as prop from the user**/}
           <View style={{ backgroundColor: "black", width: "100%" }}>
-            <Text style={styles.welcome}>Soccer{this.props.eventName}</Text>
+            <Text style={styles.welcome}>{this.state.sport}</Text>
           </View>
 
           {/** Here we get the event date, time, location, maxPeople as prop from the user**/}
           <View style={{ top: "2%", alignItems: "center" }}>
             <Text style={{ fontSize: 60, color: "#FFF" }}>
-              3/10/20{this.props.date}{" "}
+              {this.state.dateState}{" "}
             </Text>
             <Text style={{ fontSize: 40, top: "5%", color: "#FFF" }}>
-              18:30{this.props.time}{" "}
+              {this.state.timeState}{" "}
             </Text>
             <Text style={{ fontSize: 20, top: "10%", color: "#FFF" }}>
-              University of Central Florida, Orlando, Fl{this.props.location}{" "}
+              {this.state.locationState}{" "}
             </Text>
             <Text style={{ fontSize: 30, top: "20%", color: "#FFF" }}>
-              Participants: {this.state.rosterCountState}/
-              {this.state.maxPeopleState}{" "}
+              Participants: {this.state.rosterCountState} /  {this.state.maxPeopleState}{" "}
             </Text>
           </View>
 
