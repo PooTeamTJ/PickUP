@@ -29,9 +29,7 @@ export default function SignInSide() {
   
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('loggin in ' + email + ' ' + password)
     dispatch(loginUser({email, password}))
-    setEmail('')
     setPassword('')
     history.push('/')
   }

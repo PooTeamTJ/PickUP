@@ -18,6 +18,9 @@ export default function Profile() {
     const history = useHistory();
     const [EditName = false, setEditName] = React.useState();
     const [nameField = '', setNameField] = React.useState();
+    const [EditLocation = false, setEditLocation] = React.useState();
+    const [locationField = '', setLocationField] = React.useState();
+    const [zipField = '', setZipField] = React.useState();
     const [EditEmail = false, setEditEmail] = React.useState();
     const [emailField = '', setEmailField] = React.useState();
     const [EditBio = false, setEditBio] = React.useState();
@@ -40,6 +43,10 @@ export default function Profile() {
         {
             setEditBio(!EditBio);
         }
+        else if (e.target.id === 'editLocation')
+        {
+            setEditLocation(!EditLocation);
+        }
     }
 
     const handleSubmit = (e) => {
@@ -54,6 +61,12 @@ export default function Profile() {
             console.log(e.target.id, emailField)
             setEditEmail(false);
             dispatch(editUser(e.target.id, emailField, store.user))
+        }
+        else if (e.target.id === 'location')
+        {
+            console.log(e.target.id, locationField, zipField)
+            setEditLocation(false);
+            dispatch(editUser(e.target.id, {location: locationField, zipcode: zipField}, store.user))
         }
         else if (e.target.id === 'bio')
         {
@@ -76,7 +89,7 @@ export default function Profile() {
                     <Avatar className={classes.avatar} src={store.user.imageUrl} ></Avatar>
                     <input id='image' type='file' onChange={handleSubmit} style={{display: 'none'}} ref={fileInput => setImg(fileInput)}/>
                     <Button variant="contained" color="primary" onClick={() => img.click()}>Upload</Button>
-                    {/*Edit Name*/}
+                    {/* Edit Name */}
                     <div className={classes.namefield}>
                         {!EditName ? (
                             <div className={classes.namefield}>
@@ -102,7 +115,7 @@ export default function Profile() {
                             </form>
                         )}    
                     </div>
-                    {/* Edit Email: currently not working*/}
+                    {/* Edit Email */}
                     <div className={classes.namefield}>
                         {!EditEmail ? (
                             <div className={classes.namefield}>
@@ -129,11 +142,49 @@ export default function Profile() {
                         )}
                         
                     </div>
+                    {/* Edit Location */}
+                    <div className={classes.namefield}>
+                        {!EditLocation ? (
+                            <div className={classes.namefield}>
+                                <Typography component="h1" variant="body1" className={classes.name}>
+                                    {(store.user.location === '') ? ('Enter your address') : (store.user.location)}, {(store.user.zipcode === 0) ? ('Enter your zipcode') : (store.user.zipcode)}
+                                </Typography>
+                                <IconButton className={classes.editbutton} id='editLocation' onClick={onClick}><EditIcon id='editLocation'/></IconButton>
+                            </div>
+                        ) : (
+                            <form className={classes.namefield} id='location' onSubmit={handleSubmit}>
+                                <TextField
+                                    size='small'
+                                    variant='outlined'
+                                    margin='normal'
+                                    fullWidth
+                                    id='location'
+                                    label='Address'
+                                    autoComplete='location'
+                                    value={locationField}
+                                    onChange={e => setLocationField(e.target.value)}
+                                />
+                                <TextField
+                                    size='small'
+                                    variant='outlined'
+                                    margin='normal'
+                                    fullWidth
+                                    id='location'
+                                    label='Zip Code'
+                                    autoComplete='zipcode'
+                                    value={zipField}
+                                    onChange={e => setZipField(e.target.value)}
+                                />
+                                <IconButton className={classes.editbutton} type='submit'><CheckIcon/></IconButton>
+                                <IconButton className={classes.editbutton} id='editLocation' onClick={onClick}><ClearIcon id='editLocation'/></IconButton>
+                            </form>
+                        )}    
+                    </div>
                     {/* Edit Bio */}
                     <div className={classes.namefield}>
                         {!EditBio ? (
                             <div className={classes.namefield}>
-                                <Typography component="p" variant="p" className={classes.name}>{store.user.bio}</Typography>
+                                <Typography component="p" variant="body1" className={classes.name}>{(bio === '') ? ('Enter a new bio') : (store.user.bio)}</Typography>
                                 <IconButton className={classes.editbutton} id='editBio' onClick={onClick}><EditIcon id='editBio'/></IconButton>
                             </div>
                         ) : (

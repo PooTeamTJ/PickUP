@@ -13,7 +13,8 @@ exports.editUserDetails = (req, res) => {
         name: req.body.name,
         bio: req.body.bio,
         location: req.body.location,
-        age: req.body.age
+        age: req.body.age,
+        zipcode: req.body.zipcode
     }
 
     db.doc(`users/${req.body.email}`).update(userDetails)

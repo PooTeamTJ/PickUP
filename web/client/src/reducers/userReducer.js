@@ -40,6 +40,8 @@ const userReducer = (state = initState, action) => {
         }
         case EDIT_USER: {
             console.log('EDIT_USER')
+            if (action.payload.field === 'location') 
+                return {...state, location: action.payload.value.location, zipcode: action.payload.value.zipcode}
             return {
                 ...state,
                 [action.payload.field]: action.payload.value

@@ -41,8 +41,8 @@ export default function MenuAppBar() {
                             {/* <Button>
                                 <Link to='/profile' style={{ textDecoration: 'none', color: '#c4c4c4'}}>Edit Profile</Link>
                             </Button> */}
-                            <Button id='settings' onClick={handleClick}>
-                                <Link id='settings' to='/settings' style={{ textDecoration: 'none', color: '#fff'}}>Settings</Link>
+                            <Button id='profile' onClick={handleClick}>
+                                <Link id='profile' to='/profile' style={{ textDecoration: 'none', color: '#fff'}}>Profile</Link>
                             </Button>
                             <Button onClick={handleLogout} id='logout' style={{ textDecoration: 'none', color: '#fff'}}>Logout</Button>
                         </div>
