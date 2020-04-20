@@ -124,8 +124,9 @@ exports.unEventTag = (req, res) => {
              */
              eventData = doc.data();
              eventData.eventId = doc.id;
-             eventData.maxPeople = doc.data().maxPeople,
-             eventData.rosterCount = doc.data().rosterCount
+             eventData.maxPeople = doc.data().maxPeople;
+	     eventData.waitList = doc.data().waitList;
+             eventData.rosterCount = doc.data().rosterCount;
     
              return tagDocRoster.get();
            }
