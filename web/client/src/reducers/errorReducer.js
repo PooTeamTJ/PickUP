@@ -1,16 +1,18 @@
-import { REGISTER_FAIL } from '../actions/types';
+import { MESSAGE } from '../actions/types';
 
 const initState = {
-    error: ''
+    message: null,
+    type: null
 }
 
 const errorReducer = (state = initState, action) => {
-    switch (action.type) {
-        case REGISTER_FAIL: {
-            return action.payload.message
+    if (action.type === MESSAGE)
+        return {
+            ...state,
+            ...action.payload
         }
-        default: return state
-    }
+
+    return state
 
 }
 

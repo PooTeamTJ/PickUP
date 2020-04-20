@@ -15,3 +15,6 @@ export const LOAD_FAIL = 'LOAD_FAIL';
 // User
 export const EDIT_USER = 'EDIT_USER';
 export const EDIT_FAIL = 'EDIT_FAIL';
+
+// Message
+export const MESSAGE = 'MESSAGE';

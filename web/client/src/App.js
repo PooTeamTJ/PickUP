@@ -13,14 +13,12 @@ import SignUp from './pages/SignUP';
 import Settings from './pages/Settings';
 import Profile from './pages/Profile'
 import { loadUser } from './actions/userActions'
-import { loadEvents } from './actions/eventActions'
 
 class App extends React.Component {
 
   componentDidMount() {
     if (this.props.user.token) {
         this.props.dispatch(loadUser(this.props.user.token))
-        this.props.dispatch(loadEvents())
     }
   }
 

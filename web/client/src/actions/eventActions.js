@@ -4,6 +4,7 @@ import {
 } from './types'
 
 import axios from 'axios';
+import { trackPromise } from 'react-promise-tracker';
 
 export const loadEvents = () => dispatch => {
     let auth = {
@@ -14,7 +15,7 @@ export const loadEvents = () => dispatch => {
         }   
     }
 
-    axios.get('https://us-central1-pickup-proj.cloudfunctions.net/api/events', auth)
+    trackPromise(axios.get('https://us-central1-pickup-proj.cloudfunctions.net/api/events', auth)
         .then(res => {
             console.log(res)
             dispatch({
@@ -26,5 +27,5 @@ export const loadEvents = () => dispatch => {
             dispatch({
                 type: LOAD_FAIL
             })
-        })
+        }))
 }

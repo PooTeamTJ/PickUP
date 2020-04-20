@@ -4,10 +4,11 @@ import {
     LOGIN_USER,
     LOGOUT_USER,
     REGISTER_USER,
-    REGISTER_FAIL
+    MESSAGE
 } from './types'
 
 import axios from 'axios';
+import { trackPromise } from 'react-promise-tracker';
 
 export const registerUser = ({name, email, password, confirmPassword}) => dispatch => {
     const config = {
@@ -20,21 +21,32 @@ export const registerUser = ({name, email, password, confirmPassword}) => dispat
 
     const body = JSON.stringify({name, email, password, confirmPassword})
 
-    axios.post('https://us-central1-pickup-proj.cloudfunctions.net/api/signup', body, config)
+    trackPromise(axios.post('https://us-central1-pickup-proj.cloudfunctions.net/api/signup', body, config)
         .then(res => {
             dispatch({
                 type: REGISTER_USER,
                 payload: res.data
+            })
+            dispatch({
+                type: MESSAGE,
+                payload: {
+                    type: 'success',
+                    message: 'Registration successful! Please verify Your email before signing in!'
+                }
             })
             console.log(res)
         })
         .catch(err => {
             console.log(err.response)
             dispatch({
-                type: REGISTER_FAIL,
-                payload: err.response.data
+                type: MESSAGE,
+                payload: {
+                    type: 'error',
+                    ...err.response.data
+                }
             })
         })
+    )
 }
 
 export const loginUser = ({email, password}) => dispatch => {
@@ -49,7 +61,7 @@ export const loginUser = ({email, password}) => dispatch => {
     const body = JSON.stringify({email, password});
 
     // This call authenticates user and returns JWT from firebase
-    axios.post('https://us-central1-pickup-proj.cloudfunctions.net/api/login', body, config)
+    trackPromise(axios.post('https://us-central1-pickup-proj.cloudfunctions.net/api/login', body, config)
         .then(res => {
             console.log(res)
             let token = res.data.token;
@@ -60,6 +72,13 @@ export const loginUser = ({email, password}) => dispatch => {
         .catch(err => {
             console.log(err.response)
             localStorage.removeItem('token')
+            dispatch({
+                type: MESSAGE,
+                payload: {
+                    type: 'error',
+                    ...err.response.data
+                }
+            })
             return {
                 type: LOGOUT_USER,
                 payload: {
@@ -67,6 +86,7 @@ export const loginUser = ({email, password}) => dispatch => {
                 }
             }
         })
+    )
 }
 
 export const loadUser = (token) => dispatch => {
@@ -80,7 +100,7 @@ export const loadUser = (token) => dispatch => {
     } 
 
     // Sends JWT to middleware to decode and then retrieves use data from database
-    axios.get('https://us-central1-pickup-proj.cloudfunctions.net/api/user', auth)
+    trackPromise(axios.get('https://us-central1-pickup-proj.cloudfunctions.net/api/user', auth)
     .then(res => {
         let user = {token, ...res.data.credentials}
         console.log(user)
@@ -96,7 +116,7 @@ export const loadUser = (token) => dispatch => {
             type: LOGOUT_USER,
             payload: null
         }
-    })
+    }))
 }
 
 export const logoutUser = () => {
@@ -122,14 +142,14 @@ export const imageUpload = (file, user) => dispatch => {
     formData.append('profileImage', file)
     console.log(file)
 
-    axios.post('https://us-central1-pickup-proj.cloudfunctions.net/api/user/imageUpload', formData, auth)
+    trackPromise(axios.post('https://us-central1-pickup-proj.cloudfunctions.net/api/user/imageUpload', formData, auth)
         .then(res => {
             console.log(res)
             dispatch(loadUser(user.token))
         })
         .catch(err => {
             console.log(err.response)
-        })
+        }))
 } 
 
 export const editUser = (property, value, user) => dispatch => {
@@ -149,7 +169,7 @@ export const editUser = (property, value, user) => dispatch => {
 
     switch (property) {
         case 'email':
-            axios.post('https://us-central1-pickup-proj.cloudfunctions.net/api/user/updateEmail', body, auth)
+            trackPromise(axios.post('https://us-central1-pickup-proj.cloudfunctions.net/api/user/updateEmail', body, auth)
                 .then(res => {
                     dispatch({
                         type: EDIT_USER,
@@ -164,11 +184,11 @@ export const editUser = (property, value, user) => dispatch => {
                     dispatch({
                         type: EDIT_FAIL
                     })
-                })
+                }))
             break;
         case 'name':  
             console.log(body)
-            axios.post('https://us-central1-pickup-proj.cloudfunctions.net/api/user', body, auth)
+            trackPromise(axios.post('https://us-central1-pickup-proj.cloudfunctions.net/api/user', body, auth)
                 .then(res => {
                     dispatch({
                         type: EDIT_USER,
@@ -183,11 +203,11 @@ export const editUser = (property, value, user) => dispatch => {
                     dispatch({
                         type: EDIT_FAIL
                     })
-                })
+                }))
             break;
         case 'bio':  
             console.log(body)
-            axios.post('https://us-central1-pickup-proj.cloudfunctions.net/api/user', body, auth)
+            trackPromise(axios.post('https://us-central1-pickup-proj.cloudfunctions.net/api/user', body, auth)
                 .then(res => {
                     dispatch({
                         type: EDIT_USER,
@@ -202,11 +222,11 @@ export const editUser = (property, value, user) => dispatch => {
                     dispatch({
                         type: EDIT_FAIL
                     })
-                })
+                }))
             break;
         case 'location':
             console.log(body)
-            axios.post('https://us-central1-pickup-proj.cloudfunctions.net/api/user', body, auth)
+            trackPromise(axios.post('https://us-central1-pickup-proj.cloudfunctions.net/api/user', body, auth)
                 .then(res => {
                     dispatch({
                         type: EDIT_USER,
@@ -221,7 +241,7 @@ export const editUser = (property, value, user) => dispatch => {
                     dispatch({
                         type: EDIT_FAIL
                     })
-                })
+                }))
             break;
         default:
             return {
