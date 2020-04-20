@@ -1,6 +1,7 @@
 import {
     LOAD_EVENTS,
-    LOAD_FAIL
+    LOAD_FAIL,
+    GET_EVENT
 } from './types'
 
 import axios from 'axios';
@@ -29,3 +30,28 @@ export const loadEvents = () => dispatch => {
             })
         }))
 }
+
+export const getEventData = (eventId) => dispatch => {
+    let auth = {
+        headers: {
+            'Content-type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token'),
+            'Access-Control-Allow-Headers': 'Content-type, authorization'
+        }   
+    }
+
+    trackPromise(axios.get('https://us-central1-pickup-proj.cloudfunctions.net/api/events/'+eventId, auth)
+        .then(res => {
+            console.log(res)
+            dispatch({
+                type: GET_EVENT,
+                payload: res.data
+            })
+        })
+        .catch(err => {
+            dispatch({
+                type: LOAD_FAIL
+            })
+        })
+    )
+} 

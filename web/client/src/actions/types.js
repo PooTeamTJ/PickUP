@@ -10,6 +10,7 @@ export const REGISTER_FAIL = 'REGISTER_FAIL';
 // Event
 export const LOAD_EVENTS = 'LOAD_EVENTS';
 export const LOAD_FAIL = 'LOAD_FAIL';
+export const GET_EVENT = 'GET_EVENT';
 
 
 // User

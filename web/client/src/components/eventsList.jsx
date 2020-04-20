@@ -1,5 +1,6 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux';
+import { loadEvents, getEventData } from '../actions/eventActions';
 
 // Material UI Imports
 import { Grid } from '@material-ui/core';
@@ -9,7 +10,6 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { loadEvents } from '../actions/eventActions';
 import SportsBasketballIcon from '@material-ui/icons/SportsBasketball';
 import SportsTennisIcon from '@material-ui/icons/SportsTennis';
 import SportsSoccerIcon from '@material-ui/icons/SportsSoccer';
@@ -25,6 +25,9 @@ export default function SimpleExpansionPanel() {
 
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
+    console.log(panel)
+    if(store.event.events.find(event => event.eventId === panel).rosterList == null)
+      dispatch(getEventData(panel))
   }
 
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
@@ -59,7 +62,7 @@ export default function SimpleExpansionPanel() {
               <Grid item xs={1}>{getIcon(event.sport)}</Grid>
               <Grid item xs={6}><Typography className={classes.heading}>{event.description}</Typography></Grid>
               <Grid item xs={3}><Typography className={classes.date}>{formatTimeDate(event.time, event.date)}</Typography></Grid>
-              <Grid item xs={2}><Typography>{event.rosterCount} / {event.maxPeople} Players</Typography></Grid>
+              <Grid item xs={2}><Typography>Players: {event.rosterCount} / {event.maxPeople}</Typography></Grid>
             </Grid>
             
           </ExpansionPanelSummary>
