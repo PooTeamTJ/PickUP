@@ -47,7 +47,7 @@ exports.updateEmail = (req,res) => {
 exports.updatePassword = (req, res) => {
     const user = auth.currentUser
 
-    auth.sendPasswordResetEmail(`${req.user.email}`)
+    auth.sendPasswordResetEmail(`${req.body.email}`)
         .then(() => {
             return res.status(200).json({ message: "Password reset email has been sent"})
         })

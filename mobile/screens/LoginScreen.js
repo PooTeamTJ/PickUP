@@ -12,6 +12,7 @@ import {
   StatusBar,
   ImageBackground,
   AsyncStorage,
+  Button
 } from "react-native";
 
 // using class based components because they have access to lifecycle methods such as componentDidMount
@@ -94,6 +95,10 @@ export default class LoginPage extends Component {
               <Text style={styles.btnTxt}>Signup</Text>
             </TouchableOpacity>
           </View>
+          {/** Change Password **/}
+          <View style={styles.buttonStyle}>
+            <Button color="#FFD700" onPress={() => this.props.navigation.navigate('Change Password')} title='Forgot password?' />
+            </View>
         </ImageBackground>
       </View>
     );
@@ -140,4 +145,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     width: "90%",
   },
+  buttonStyle: {
+    flexDirection: "row"
+}
 });
