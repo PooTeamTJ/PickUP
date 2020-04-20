@@ -25,7 +25,7 @@ export default class YourEvents extends Component {
     };
   }
 
-  // need to get events from users
+  // need to get each event this user is in
 
   async getUserToken(key) {
     try {
@@ -41,7 +41,7 @@ export default class YourEvents extends Component {
   componentDidMount() {
     this.getUserToken("token")
       .then((value) => {
-        console.log(value);
+        //console.log(value);
         // token is now in memory (state) and stored on the device for one hour
         this.token = value;
       })
