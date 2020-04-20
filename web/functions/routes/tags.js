@@ -27,7 +27,7 @@ eventDoc.get()
          eventData.eventId = doc.id;
          eventData.maxPeople = doc.data().maxPeople,
          eventData.rosterCount = doc.data().rosterCount
-
+	 eventData.waitList = doc.data().waitList
          return tagDocRoster.get();
        }
 
