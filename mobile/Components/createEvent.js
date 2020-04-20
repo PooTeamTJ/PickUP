@@ -52,15 +52,6 @@ export default class createEvent extends Component {
       }
 
     createEvent = () => {
-        
-        console.log("Desc: " + this.state.description);
-        console.log("Location: " + this.state.address);
-        console.log("time: " + this.state.time);
-        console.log("date: " + this.state.date);
-        console.log("sport: " + this.state.value);
-        console.log("maxPeople: "  + this.state.participants);
-        
-
         fetch("https://us-central1-pickup-proj.cloudfunctions.net/api/events", {
           method: "POST",
           headers: {
