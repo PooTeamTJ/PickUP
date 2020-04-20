@@ -21,7 +21,7 @@ export default class EventCard extends Component {
   render() {
     return (
       <View>
-        <Text>description: {this.props.event.description}</Text>
+        <Text>sport: {this.props.event.sport}</Text>
         <Text>location: {this.props.event.location}</Text>
       </View>
     );
