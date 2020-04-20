@@ -18,14 +18,12 @@ export default class EventCard extends Component {
     super(props);
 
   }
-
-  goToEventPage = () => {
-    this.props.navigation.navigate("Event Screen");
-  }
+  
 
   state = {};
 
   render() {
+
     return (
       <View>
       <Card style={styles.card}title={this.props.event.sport}
@@ -38,15 +36,16 @@ export default class EventCard extends Component {
             <Text style={{fontWeight: "bold"}}>Roster: </Text>
             {this.props.event.rosterCount} / {this.props.event.maxPeople} {"\n"}
             <Text style={{fontWeight: "bold"}}>Location: </Text>
-            {this.props.event.location}
+            {this.props.event.location} {"\n"}
 
-
+            <Text style={{fontWeight: "bold"}}>ID: </Text>
+            {this.props.event.eventId}
           </Text>
           <Button
             icon={<Icon name='code' color='#ffffff' />}
             buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
             title='GO TO EVENT PAGE'
-            onPress={this.goToEventPage}
+            onPress={() => this.props.navigation.navigate('Event', { id: this.props.event.eventId })}
             />
       </Card>
       </View>

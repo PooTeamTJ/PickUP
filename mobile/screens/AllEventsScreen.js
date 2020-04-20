@@ -15,7 +15,7 @@ export default class AllEventsScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      events: [],
+      events: []
     };
   }
 
@@ -66,7 +66,7 @@ export default class AllEventsScreen extends Component {
   renderItem = ({ item }) => {
     return (
       <View>
-        <EventCard event={item} />
+        <EventCard event={item} navigation={this.props.navigation} />
       </View>
     );
   };

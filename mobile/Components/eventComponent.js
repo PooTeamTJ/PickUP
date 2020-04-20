@@ -30,7 +30,8 @@ export default class EventComponent extends Component {
       err: null,
       dateState: null,
       sportState: null,
-      tokenState: ''
+      tokenState: '',
+      eventId: this.props.route.params.id 
     };
 
     this.addPerson = this.addPerson.bind(this)
@@ -38,6 +39,11 @@ export default class EventComponent extends Component {
 
   }
 
+  componentDidUpdate(prevProps) {
+    if(prevProps.value !== this.props.value) {
+      this.setState({value: this.props.value});
+    }
+  }
 
 
   //**####################################################################################################################**//
@@ -80,7 +86,7 @@ export default class EventComponent extends Component {
     console.log('addPerson() ' + this.state.tokenState)
 
     fetch(
-       `https://us-central1-pickup-proj.cloudfunctions.net/api/events/${this.props.eventID}/tag`, //GNLHb6HOvPl56tK2VEz2,
+       `https://us-central1-pickup-proj.cloudfunctions.net/api/events/${this.state.eventId}/tag`, //GNLHb6HOvPl56tK2VEz2,
       {
         method: "GET",
         headers: {
@@ -120,7 +126,7 @@ export default class EventComponent extends Component {
     // }
 
     fetch(
-       `https://us-central1-pickup-proj.cloudfunctions.net/api/events/${this.props.eventID}/tag`, //GNLHb6HOvPl56tK2VEz2,
+       `https://us-central1-pickup-proj.cloudfunctions.net/api/events/${this.state.eventId}/tag`, //GNLHb6HOvPl56tK2VEz2,
       {
         method: "GET",
         headers: {
@@ -155,9 +161,8 @@ export default class EventComponent extends Component {
    // var token = JSON.parse(item)
   //  var token = await this.getUserToken('token')
   console.log('getEvent() ' + this.state.tokenState)
-
     fetch(
-       `https://us-central1-pickup-proj.cloudfunctions.net/api/events/${this.props.eventID}`, //GNLHb6HOvPl56tK2VEz2,
+       `https://us-central1-pickup-proj.cloudfunctions.net/api/events/${this.state.eventId}`, //GNLHb6HOvPl56tK2VEz2,
       {
         method: "GET",
         headers: {
