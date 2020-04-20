@@ -80,7 +80,7 @@ export default class EventComponent extends Component {
     console.log('addPerson() ' + this.state.tokenState)
 
     fetch(
-       `https://us-central1-pickup-proj.cloudfunctions.net/api/events/4NwUiP0WTtd7mrNWBFLR/tag`, //${this.props.eventID}/tag`, //GNLHb6HOvPl56tK2VEz2,
+       `https://us-central1-pickup-proj.cloudfunctions.net/api/events/${this.props.eventID}/tag`, //GNLHb6HOvPl56tK2VEz2,
       {
         method: "GET",
         headers: {
@@ -120,7 +120,7 @@ export default class EventComponent extends Component {
     // }
 
     fetch(
-       `https://us-central1-pickup-proj.cloudfunctions.net/api/events/4NwUiP0WTtd7mrNWBFLR/untag`, //${this.props.eventID}/tag`, //GNLHb6HOvPl56tK2VEz2,
+       `https://us-central1-pickup-proj.cloudfunctions.net/api/events/${this.props.eventID}/tag`, //GNLHb6HOvPl56tK2VEz2,
       {
         method: "GET",
         headers: {
@@ -157,7 +157,7 @@ export default class EventComponent extends Component {
   console.log('getEvent() ' + this.state.tokenState)
 
     fetch(
-       `https://us-central1-pickup-proj.cloudfunctions.net/api/events/4NwUiP0WTtd7mrNWBFLR`,//${this.props.eventID}`, //GNLHb6HOvPl56tK2VEz2,
+       `https://us-central1-pickup-proj.cloudfunctions.net/api/events/${this.props.eventID}`, //GNLHb6HOvPl56tK2VEz2,
       {
         method: "GET",
         headers: {
