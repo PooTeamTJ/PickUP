@@ -56,7 +56,7 @@ exports.getAllEvents = (req, res) => {
 
 exports.addNewEvent = (req, res) => {
 
-    if (req.body.description.trim().lenght > 500){
+    if (req.body.description.trim().length > 500){
         return res.status(400).json({ message: "The description is too long"})
     }
     const newEvent = {
@@ -67,10 +67,10 @@ exports.addNewEvent = (req, res) => {
         maxPeople: req.body.maxPeople,
         location: req.body.location,
         sport: req.body.sport,
+        time: req.body.time,
+        date: req.body.date, 
         rosterCount: 0,
-        waitList: 0,
-        rosterList: [],
-        waitArray:[]
+        waitList: 0
     }
 
     db.collection('events').add(newEvent)
