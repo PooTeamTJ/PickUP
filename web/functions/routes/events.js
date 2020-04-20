@@ -27,7 +27,10 @@ exports.getAllEvents = (req, res) => {
                     userId: doc.data().userId,
                     rosterCount: doc.data().rosterCount,
                     waitList: doc.data().waitList,
-                    createdAt: doc.data().createdAt
+                    createdAt: doc.data().createdAt,
+                    sport: doc.data().sport,
+                    time: doc.data().time,
+                    date: doc.data().date
                 });
             })
             return res.json(events);
