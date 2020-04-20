@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { editUser, imageUpload } from '../actions/userActions';
+import { clearMessages } from '../actions/errorActions'
 
 // Material UI Imports
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -10,6 +11,12 @@ import EditIcon from '@material-ui/icons/Edit';
 import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+
+const Alert = (props) => {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+}  
 
 export default function Profile() {
     const classes = useStyles();
@@ -26,6 +33,7 @@ export default function Profile() {
     const [EditBio = false, setEditBio] = React.useState();
     const [bio = store.user.bio, setBio] = React.useState();
     const [img = null, setImg] = React.useState();
+    const [open, setOpen] = React.useState(false);
     
     const onClick = (e) => {
         console.log(e.target)
@@ -80,6 +88,20 @@ export default function Profile() {
             dispatch(imageUpload(e.target.files[0], store.user))
         }
     }
+
+    const handleClose = (e, reason) => {
+        if (reason === 'clickaway') return;
+        dispatch(clearMessages());
+        setOpen(false);
+      }
+    
+    React.useEffect(() => {
+    if (!open) {
+        if (store.error.message) {
+        setOpen(true);
+        }
+    }
+    }, [open, store.error.message])
 
     return (
         store.user.token ? (
@@ -206,7 +228,12 @@ export default function Profile() {
                         
                     </div>
                     
-                </Paper>    
+                </Paper> 
+                <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                    <Alert onClose={handleClose} severity={store.error.type}>
+                        {store.error.message}
+                    </Alert>
+                </Snackbar>   
             </div>
         ) : (
             <div>{history.push('/')}</div>

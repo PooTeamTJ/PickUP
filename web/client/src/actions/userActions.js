@@ -146,6 +146,13 @@ export const imageUpload = (file, user) => dispatch => {
         .then(res => {
             console.log(res)
             dispatch(loadUser(user.token))
+            dispatch({
+                type: MESSAGE,
+                payload: {
+                    type: 'success',
+                    ...res.data
+                }
+            })
         })
         .catch(err => {
             console.log(err.response)
@@ -178,11 +185,25 @@ export const editUser = (property, value, user) => dispatch => {
                             value
                         }
                     })
+                    dispatch({
+                        type: MESSAGE,
+                        payload: {
+                            type: 'success',
+                            message: 'Email updated. Please verify your new address'
+                        }
+                    })
                 })
                 .catch(err => {
                     console.log(err.response)
                     dispatch({
                         type: EDIT_FAIL
+                    })
+                    dispatch({
+                        type: MESSAGE,
+                        payload: {
+                            type: 'error',
+                            message: 'Update failed'
+                        }
                     })
                 }))
             break;
@@ -197,11 +218,25 @@ export const editUser = (property, value, user) => dispatch => {
                             value
                         }
                     })
+                    dispatch({
+                        type: MESSAGE,
+                        payload: {
+                            type: 'success',
+                            message: 'Updated Successfully'
+                        }
+                    })
                 })
                 .catch(err => {
                     console.log(err.response)
                     dispatch({
                         type: EDIT_FAIL
+                    })
+                    dispatch({
+                        type: MESSAGE,
+                        payload: {
+                            type: 'error',
+                            message: 'Update failed'
+                        }
                     })
                 }))
             break;
@@ -216,11 +251,25 @@ export const editUser = (property, value, user) => dispatch => {
                             value
                         }
                     })
+                    dispatch({
+                        type: MESSAGE,
+                        payload: {
+                            type: 'success',
+                            message: 'Updated Successfully'
+                        }
+                    })
                 })
                 .catch(err => {
                     console.log(err.response)
                     dispatch({
                         type: EDIT_FAIL
+                    })
+                    dispatch({
+                        type: MESSAGE,
+                        payload: {
+                            type: 'error',
+                            message: 'Update failed'
+                        }
                     })
                 }))
             break;
@@ -235,11 +284,25 @@ export const editUser = (property, value, user) => dispatch => {
                             value
                         }
                     })
+                    dispatch({
+                        type: MESSAGE,
+                        payload: {
+                            type: 'success',
+                            message: 'Updated Successfully'
+                        }
+                    })
                 }) 
                 .catch(err => {
                     console.log(err.response)
                     dispatch({
                         type: EDIT_FAIL
+                    })
+                    dispatch({
+                        type: MESSAGE,
+                        payload: {
+                            type: 'error',
+                            message: 'Update failed'
+                        }
                     })
                 }))
             break;
