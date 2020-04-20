@@ -9,6 +9,7 @@ import LoginScreen from "./screens/LoginScreen";
 import SignUpScreen from "./screens/SignUpScreen";
 import EventComponent from "./Components/eventComponent";
 import CreateEventComponent from "./Components/createEvent";
+import ChangePasswordScreen from "./screens/ChangePassword";
 
 const Drawer = createDrawerNavigator();
 
@@ -18,6 +19,7 @@ export default function App() {
       <Drawer.Navigator initialRouteName="Login">
         <Drawer.Screen name="Login" component={LoginScreen} />
         <Drawer.Screen name="Signup" component={SignUpScreen} />
+        <Drawer.Screen name="Change Password" component={ChangePasswordScreen} />
         <Drawer.Screen name="Home" component={HomeScreen} />
         <Drawer.Screen name="Profile" component={ProfileScreen} />
         <Drawer.Screen name="All Events" component={AllEventsScreen} />

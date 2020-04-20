@@ -42,7 +42,7 @@ app.get('/user', auth, getUserDetails);
 app.get('/user/:email', auth, anotherUserDetails);
 
 app.post('/user/updateEmail', auth, updateEmail);
-app.patch('/user/updatePassword', auth, updatePassword);
+app.post('/user/updatePassword', updatePassword);
 
 
 app.post('/events', auth, addNewEvent);
