@@ -8,24 +8,35 @@ import {
   TextInput,
   TouchableOpacity,
   ImageBackground,
-  Button
+  Button,
+  Alert
 } from 'react-native';
-
 
 export default class SignUpPage extends React.Component {
     state = {
-        username: '', email: '', password: '', age: ''
+        name: '', email: '', password: '', confirmPassword: ''
     }
     onChangeText = (key, val) => {
         this.setState({ [key]: val })
     }
-    signUp = async () => {
-        const { username, email, password, age } = this.state
-        try {
-            console.log('User succesfully signed up!: ', success)
-        } catch (err) {
-            console.log('Error signing up', err)
-        }
+
+    registerUser = () => {
+        fetch("https://us-central1-pickup-proj.cloudfunctions.net/api/signup", {
+            method: 'POST',
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({  name: this.state.name,
+                                    email: this.state.email,
+                                    password: this.state.password,
+                                    confirmPassword: this.state.confirmPassword})
+        }).then((response) => response.json())
+        .then((res) => {
+            alert(res.message);
+        }).catch((error) => {
+            console.log(error)
+        })
     }
 
     render() {
@@ -38,7 +49,7 @@ export default class SignUpPage extends React.Component {
                     <Text style={styles.welcome}>Sign Up With Email</Text>
 
                     {/**    User input place holder      **/}
-                    <TextInput style={styles.input} placeholder="Username" autoCapitalize="none" onChangeText={val => this.onChangeText('username', val)}/>
+                    <TextInput style={styles.input} placeholder="Full Name" autoCapitalize="none" onChangeText={val => this.onChangeText('name', val)}/>
 
                     {/**    Email input place holder      **/}
                     <TextInput style={styles.input} placeholder="Email" autoCapitalize="none" onChangeText={val => this.onChangeText('email', val)} />
@@ -46,14 +57,14 @@ export default class SignUpPage extends React.Component {
                     {/**    Password input place holder      **/}
                     <TextInput style={styles.input} placeholder="Password" autoCapitalize="none" secureTextEntry onChangeText={val => this.onChangeText('password', val)} />
 
-                    {/**    Age input place holder      **/}
-                    <TextInput style={styles.input} placeholder="Age" autoCapitalize="none" onChangeText={val => this.onChangeText('age', val)}/>
+                    {/**    Confirm Password input place holder      **/}
+                    <TextInput style={styles.input} placeholder="Confirm Password" autoCapitalize="none" secureTextEntry onChangeText={val => this.onChangeText('confirmPassword', val)}/>
 
                     {/**    Buttons container      **/}
                     <View style = {styles.btnContainer}>
                         {/**    Login btn      **/}
                         <TouchableOpacity style = {styles.userBtn}>
-                            <Button color="black" style={styles.btnTxt} onPress={this.signUp} title="Create an account" />
+                            <Button color="black" style={styles.btnTxt} onPress={() => this.registerUser()} title="Create an account" />
                         </TouchableOpacity>
                     </View>
 

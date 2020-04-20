@@ -7,7 +7,8 @@ import {
   TouchableOpacity,
   ImageBackground,
   Button,
-  Slider
+  Slider,
+  AsyncStorage
 } from 'react-native';
 
 import { Dropdown } from 'react-native-material-dropdown';
@@ -36,6 +37,44 @@ export default class createEvent extends Component {
             label: 'Select a sport...'
         }
     }
+    async getUserToken(key) {
+        try {
+          // need to wait to get token because render will load before lifecycle method
+          const retrievedItem = await AsyncStorage.getItem(key);
+    
+          const token = retrievedItem;
+
+          return token;
+    
+        } catch (error) {
+          console.log(error);
+        }
+    }
+
+    async createEvent() {
+        var token = await this.getUserToken("token")
+
+        fetch("https://us-central1-pickup-proj.cloudfunctions.net/api/events", {
+            method: 'POST',
+            headers: {
+                'Authorization': "Bearer " + token,
+                'Accept': "application/json",
+                "Content-Type": "application/json",
+                'Access-Control-Headers': "Content-type, authorization"
+            },
+            body: JSON.stringify({  sport: this.state.value,
+                                    date: this.state.date,
+                                    time: this.state.time,
+                                    location: this.state.address,
+                                    maxPeople: this.state.participants,
+                                    })
+        }).then((response) => response.json())
+        .then((res) => {
+            console.log("res: " + res)
+        }).catch((error) => {
+            console.log("error: " + error)
+        })
+    }
 
     componentDidMount() {
         const value = this.state.data[0].value
@@ -55,15 +94,6 @@ export default class createEvent extends Component {
 
     onChangeText = (key, val) => {
         this.setState({ [key]: val })
-    }
-
-    createEvent = async () => {
-        const { sport, date, time, address, participants } = this.state
-        try {
-            console.log('Event succesfully created!: ', success)
-        } catch (err) {
-            console.log('Error creating event!', err)
-        }
     }
 
     render() {
@@ -152,7 +182,7 @@ export default class createEvent extends Component {
                 <View style = {styles.btnContainer}>
                     {/**    Create Event btn      **/}
                     <TouchableOpacity style = {styles.userBtn}>
-                        <Button color="black" style={styles.btnTxt} onPress={this.createEvent} title="Create Event" />
+                        <Button color="black" style={styles.btnTxt} onPress={() => this.createEvent()} title="Create Event" />
                     </TouchableOpacity>
                 </View>
 

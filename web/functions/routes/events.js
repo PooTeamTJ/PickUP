@@ -23,9 +23,12 @@ exports.getAllEvents = (req, res) => {
                     eventId: doc.id,
                     description: doc.data().description,
                     maxPeople: doc.data().maxPeople,
+                    sport: doc.data().sport,
                     location: doc.data().location,
                     userId: doc.data().userId,
                     rosterCount: doc.data().rosterCount,
+                    date: doc.data().date,
+                    time: doc.data().time,
                     waitList: doc.data().waitList,
                     createdAt: doc.data().createdAt
                 });
@@ -62,10 +65,13 @@ exports.addNewEvent = (req, res) => {
     const newEvent = {
         userId: req.user.userId,
         description: req.body.description,
+        sport: req.body.sport,
         userImage: req.user.imageUrl,
         createdAt: new Date().toISOString(),
         maxPeople: req.body.maxPeople,
         location: req.body.location,
+        date: req.body.date,
+        time: req.body.time,
         rosterCount: 0,
         waitList: 0,
     }
