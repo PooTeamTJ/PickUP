@@ -30,11 +30,8 @@ exports.getAllEvents = (req, res) => {
                     createdAt: doc.data().createdAt,
                     sport: doc.data().sport,
                     time: doc.data().time,
-<<<<<<< HEAD
-                    date: doc.data().date
-=======
                     date: doc.data().date,
->>>>>>> 6f48a24f07486ad55c970385a2cb61237a6a82a3
+
                 });
             })
             return res.json(events);
