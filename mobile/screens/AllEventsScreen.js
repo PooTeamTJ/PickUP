@@ -7,7 +7,7 @@ import {
   useColorScheme,
   FlatList,
   AsyncStorage,
-  ImageBackground
+  ImageBackground,
 } from "react-native";
 import EventCard from "../Components/EventCard";
 
@@ -15,7 +15,7 @@ export default class AllEventsScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      events: []
+      events: [],
     };
   }
 
@@ -56,8 +56,6 @@ export default class AllEventsScreen extends Component {
       });
   }
 
-  
-
   componentDidMount() {
     this.getAllEvents();
   }
@@ -79,7 +77,7 @@ export default class AllEventsScreen extends Component {
         blurRadius={4}
       >
         <View style={styles.events}>
-        <Text style={styles.text}>ALL EVENTS</Text>
+          <Text style={styles.text}>ALL EVENTS</Text>
 
           <React.Fragment>
             <FlatList
@@ -89,8 +87,7 @@ export default class AllEventsScreen extends Component {
             />
           </React.Fragment>
         </View>
-        </ImageBackground>
-
+      </ImageBackground>
     );
   }
 }
@@ -103,16 +100,16 @@ const styles = StyleSheet.create({
   },
   text: {
     textAlign: "center",
-    fontSize:50,
+    fontSize: 50,
     paddingBottom: 10,
-    fontWeight:"bold",
+    fontWeight: "bold",
     backgroundColor: "#000",
     color: "#FFF",
-    marginTop:5
+    marginTop: 5,
   },
   image: {
     flex: 1,
     resizeMode: "cover",
     justifyContent: "center",
-  }
+  },
 });
