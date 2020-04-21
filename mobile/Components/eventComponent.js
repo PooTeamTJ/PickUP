@@ -251,7 +251,7 @@ export default class EventComponent extends Component {
         <View style={styles.backBtnContainer}>
           <TouchableOpacity
             style={styles.userBtn}
-            onPress={() => this.props.navigation.navigate("Home")}
+            onPress={() => this.props.navigation.navigate("All Events")}
           >
             <Text style={styles.btnTxt}>Back</Text>
           </TouchableOpacity>
