@@ -18,7 +18,6 @@ export const loadEvents = () => dispatch => {
 
     trackPromise(axios.get('https://us-central1-pickup-proj.cloudfunctions.net/api/events', auth)
         .then(res => {
-            console.log(res)
             dispatch({
                 type: LOAD_EVENTS,
                 payload: res.data
@@ -42,7 +41,6 @@ export const getEventData = (eventId) => dispatch => {
 
     trackPromise(axios.get('https://us-central1-pickup-proj.cloudfunctions.net/api/events/'+eventId, auth)
         .then(res => {
-            console.log(res)
             dispatch({
                 type: GET_EVENT,
                 payload: res.data

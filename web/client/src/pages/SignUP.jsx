@@ -21,22 +21,27 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 
+// Alert Component
 const Alert = (props) => {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
 export default function SignInSide() {
   const classes = useStyles();
+  // Redux hooks for store access and dispatch actions
   const dispatch = useDispatch();
-  const { promiseInProgress } = usePromiseTracker();
   const store = useSelector(state => state);
+  // Tracks asyn calls for loading overlay
+  const { promiseInProgress } = usePromiseTracker();
 
+  // React state hooks
   const [name, setName] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [confirmPassword, setConfirmPassword] = React.useState("");
   const [open, setOpen] = React.useState(false);
 
+  // Submit registration information to redux actions
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(name, email, password, confirmPassword)
@@ -45,12 +50,14 @@ export default function SignInSide() {
     setConfirmPassword('')
   }
 
+  // Prevents clickaway from closing alerts. Alerts will timeout or close by clicking the x
   const handleClose = (e, reason) => {
     if (reason === 'clickaway') return;
     dispatch(clearMessages());
     setOpen(false);
   }
 
+  // Used to send alerts when the message changes
   React.useEffect(() => {
     if (!open) {
       if (store.error.message) {
@@ -163,6 +170,7 @@ export default function SignInSide() {
   );
 }
 
+// Component styles
 const useStyles = makeStyles((theme) => ({
   root: {
     height: '92vh',

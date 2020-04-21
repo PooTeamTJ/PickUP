@@ -8,6 +8,7 @@ import {
 } from './types'
 
 import axios from 'axios';
+// trackPromise is used to keep track of active promises for use in informin ght euser when processes are running in the background
 import { trackPromise } from 'react-promise-tracker';
 
 export const registerUser = ({name, email, password, confirmPassword}) => dispatch => {
@@ -34,10 +35,8 @@ export const registerUser = ({name, email, password, confirmPassword}) => dispat
                     message: 'Registration successful! Please verify Your email before signing in!'
                 }
             })
-            console.log(res)
         })
         .catch(err => {
-            console.log(err.response)
             dispatch({
                 type: MESSAGE,
                 payload: {
@@ -50,7 +49,6 @@ export const registerUser = ({name, email, password, confirmPassword}) => dispat
 }
 
 export const loginUser = ({email, password}) => dispatch => {
-    console.log(email, password)
 
     const config = {
         headers: {
@@ -63,14 +61,12 @@ export const loginUser = ({email, password}) => dispatch => {
     // This call authenticates user and returns JWT from firebase
     trackPromise(axios.post('https://us-central1-pickup-proj.cloudfunctions.net/api/login', body, config)
         .then(res => {
-            console.log(res)
             let token = res.data.token;
             localStorage.setItem('token', token)
 
             dispatch(loadUser(token))
         })
         .catch(err => {
-            console.log(err.response)
             localStorage.removeItem('token')
             dispatch({
                 type: MESSAGE,
@@ -103,14 +99,12 @@ export const loadUser = (token) => dispatch => {
     trackPromise(axios.get('https://us-central1-pickup-proj.cloudfunctions.net/api/user', auth)
     .then(res => {
         let user = {token, ...res.data.credentials}
-        console.log(user)
         dispatch({
             type: LOGIN_USER,
             payload: {...user}
         })
     })
     .catch(err => {
-        console.log(err.response)
         localStorage.removeItem('token')
         return {
             type: LOGOUT_USER,
@@ -140,11 +134,9 @@ export const imageUpload = (file, user) => dispatch => {
 
     var formData = new FormData();
     formData.append('profileImage', file)
-    console.log(file)
 
     trackPromise(axios.post('https://us-central1-pickup-proj.cloudfunctions.net/api/user/imageUpload', formData, auth)
         .then(res => {
-            console.log(res)
             dispatch(loadUser(user.token))
             dispatch({
                 type: MESSAGE,
@@ -155,7 +147,13 @@ export const imageUpload = (file, user) => dispatch => {
             })
         })
         .catch(err => {
-            console.log(err.response)
+            dispatch({
+                type: MESSAGE,
+                payload: {
+                    type: 'error',
+                    message: 'Image upload failed'
+                }
+            })
         }))
 } 
 
@@ -169,7 +167,6 @@ export const editUser = (property, value, user) => dispatch => {
         }
     } 
 
-    console.log(property, value)
     let body;
     if (property === 'location') body = { ...user, location: value.location, zipcode: value.zipcode}
     else body = { ...user, [property]: value}
@@ -194,7 +191,6 @@ export const editUser = (property, value, user) => dispatch => {
                     })
                 })
                 .catch(err => {
-                    console.log(err.response)
                     dispatch({
                         type: EDIT_FAIL
                     })
@@ -208,7 +204,6 @@ export const editUser = (property, value, user) => dispatch => {
                 }))
             break;
         case 'name':  
-            console.log(body)
             trackPromise(axios.post('https://us-central1-pickup-proj.cloudfunctions.net/api/user', body, auth)
                 .then(res => {
                     dispatch({
@@ -227,7 +222,6 @@ export const editUser = (property, value, user) => dispatch => {
                     })
                 })
                 .catch(err => {
-                    console.log(err.response)
                     dispatch({
                         type: EDIT_FAIL
                     })
@@ -241,7 +235,6 @@ export const editUser = (property, value, user) => dispatch => {
                 }))
             break;
         case 'bio':  
-            console.log(body)
             trackPromise(axios.post('https://us-central1-pickup-proj.cloudfunctions.net/api/user', body, auth)
                 .then(res => {
                     dispatch({
@@ -260,7 +253,6 @@ export const editUser = (property, value, user) => dispatch => {
                     })
                 })
                 .catch(err => {
-                    console.log(err.response)
                     dispatch({
                         type: EDIT_FAIL
                     })
@@ -274,7 +266,6 @@ export const editUser = (property, value, user) => dispatch => {
                 }))
             break;
         case 'location':
-            console.log(body)
             trackPromise(axios.post('https://us-central1-pickup-proj.cloudfunctions.net/api/user', body, auth)
                 .then(res => {
                     dispatch({
@@ -293,7 +284,6 @@ export const editUser = (property, value, user) => dispatch => {
                     })
                 }) 
                 .catch(err => {
-                    console.log(err.response)
                     dispatch({
                         type: EDIT_FAIL
                     })

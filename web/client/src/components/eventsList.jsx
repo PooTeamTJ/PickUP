@@ -18,11 +18,16 @@ import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 
 export default function SimpleExpansionPanel() {
   const classes = useStyles();
+  // Redux diaptch and store access
   const dispatch = useDispatch();
   const store = useSelector(state => state);
+  // React state
   const [expanded, setExpanded] = React.useState('');
+  
+  // gets events when component loads or updates
   React.useEffect(() => dispatch(loadEvents()), [dispatch]);
 
+  // Used to toggle panels opening and closing when clicked
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
     console.log(panel)
@@ -30,6 +35,7 @@ export default function SimpleExpansionPanel() {
       dispatch(getEventData(panel))
   }
 
+  // Formats date time from XX:XX XX-XX-XXXX to "MONTH DAY, YEAR at XX:XX"
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
   const formatTimeDate = (time, date) => {
     var _date = date.split('-', 3)
@@ -37,6 +43,8 @@ export default function SimpleExpansionPanel() {
     return month + ' ' + _date[1] + ', ' + _date[2] + ' at ' + time
   }
 
+  // Determines which sport icon to display on card
+  // Support for more icons can be added by adding a new case
   const getIcon = (sport) => {
     if (sport) var _sport = sport.toLowerCase()
     switch(_sport) {

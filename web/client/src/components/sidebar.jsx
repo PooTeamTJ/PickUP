@@ -19,9 +19,12 @@ const drawerWidth = 300;
 
 export default function ClippedDrawer() {
   const classes = useStyles();
+  // Redux store access
   const store = useSelector(state => state);
+  // Router history access
   const history = useHistory();
 
+  // Handle click to edit profile page
   const handleClick = (e) => {
     console.log(e.target.id)
     e.preventDefault();
@@ -45,6 +48,7 @@ export default function ClippedDrawer() {
             {store.user.name}
           </Typography>
           <Grid container className={classes.rating}>
+            {/*determines the number of filled stars to display based on the sers rating */}
             <Grid item>{store.user.rating >= 1 ? (<StarIcon/>):(<StarBorderIcon/>)}</Grid>
             <Grid item>{store.user.rating >= 2 ? (<StarIcon/>):(<StarBorderIcon/>)}</Grid>
             <Grid item>{store.user.rating >= 3 ? (<StarIcon/>):(<StarBorderIcon/>)}</Grid>
@@ -54,6 +58,7 @@ export default function ClippedDrawer() {
           <Badges />
         </div>
         <Button id='/profile' onClick={handleClick} className={classes.editbutton} variant='contained' color='primary'>
+          {/* Not sure why I didnt just make it regular text instead of a link on a buttom */}
           <Link id='/profile' to='/profile' style={{ textDecoration: 'none', color: '#fff'}}>Edit Profile</Link>
         </Button>
       </Drawer>
@@ -61,6 +66,7 @@ export default function ClippedDrawer() {
   );
 }
 
+// Component classes from styling
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',

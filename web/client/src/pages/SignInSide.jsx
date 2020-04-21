@@ -24,21 +24,27 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 
+// Alert component
 const Alert = (props) => {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
 export default function SignInSide() {
   const classes = useStyles();
+  // Redux hooksL give access to store and dispatch actions
   const dispatch = useDispatch();
   const store = useSelector(state => state);
+  // Tracks async promises. Used for loading symbol while logging in 
   const { promiseInProgress } = usePromiseTracker();
+  // Access to router history
   const history = useHistory();
 
+  // React component state hooks
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [open, setOpen] = React.useState(false);
   
+  // Submit Login. Redirects to main page
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(loginUser({email, password}))
@@ -46,6 +52,7 @@ export default function SignInSide() {
     history.push('/')
   }
 
+  // Closing for alerts. Prevents clicking from closing
   const handleClose = (e, reason) => {
     if (reason === 'clickaway') return;
     dispatch(clearMessages());
@@ -137,6 +144,7 @@ export default function SignInSide() {
   );
 }
 
+// Class styles
 const useStyles = makeStyles((theme) => ({
   root: {
     height: '92vh',

@@ -16,6 +16,8 @@ import { loadUser } from './actions/userActions'
 
 class App extends React.Component {
 
+  // When the app loads it will retrieve the user token from props 
+  // and retrieve the user imformation to store it in the redux state
   componentDidMount() {
     if (this.props.user.token) {
         this.props.dispatch(loadUser(this.props.user.token))
@@ -25,7 +27,10 @@ class App extends React.Component {
   render () {
     return (
       <div className='App'>
+        {/* Router is used to switch between components in the site since it is a single page application */}
         <Router>
+          {/* NavBar is the navbar, used for navigation */}
+          {/* The toolbar component is used to prevent content from being hidden behind the navbar  */}
           <NavBar/>
           <Toolbar/>
           <Switch>
@@ -33,7 +38,7 @@ class App extends React.Component {
             <Route exact path='/login' component={SignInSide} />
             <Route exact path='/404' component={NotFoundPage} />
             <Route exact path='/register' component={SignUp} />
-            <Route exact path='/settings' component={Settings} />
+            <Route exact path='/settings' component={Settings} /> {/*Currently defunct*/}
             <Route exact path='/profile' component={Profile} />
             <Redirect to='/404' />
           </Switch>

@@ -15,7 +15,6 @@ const eventReducer = (state = initState, action) => {
             }
         case GET_EVENT:
             let updatedEvent = action.payload
-            console.log(updatedEvent)
             let events = state.events
             let newEvents = []
             for (let i = 0; i < events.length; i++)

@@ -14,15 +14,21 @@ import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 
+// A subcomponent for the alerts using material ui alerts
 const Alert = (props) => {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
 }  
 
 export default function Profile() {
-    const classes = useStyles();
+    // access to redux store and action dispatch
     const store = useSelector(state => state);
     const dispatch = useDispatch();
+    // Styles... see below
+    const classes = useStyles();
+    // Access to history props of react-router-dom
+    // Used for redirects
     const history = useHistory();
+    // Alternative to react state using hooks instead of class based component
     const [EditName = false, setEditName] = React.useState();
     const [nameField = '', setNameField] = React.useState();
     const [EditLocation = false, setEditLocation] = React.useState();
@@ -35,6 +41,7 @@ export default function Profile() {
     const [img = null, setImg] = React.useState();
     const [open, setOpen] = React.useState(false);
     
+    // onClick handles the toggle of profile fields between display and edit
     const onClick = (e) => {
         console.log(e.target)
         if (e.target.id === 'editName')
@@ -50,6 +57,7 @@ export default function Profile() {
         else if (e.target.id === 'editBio')
         {
             setEditBio(!EditBio);
+            setBio('')
         }
         else if (e.target.id === 'editLocation')
         {
@@ -57,6 +65,8 @@ export default function Profile() {
         }
     }
 
+    // Submits changes to the editUser Redux action for api calls with content dependent on the field being changed
+    // Also reverts the field back to display mode instead of edit mode
     const handleSubmit = (e) => {
         e.preventDefault();
         if (e.target.id === 'name')
@@ -66,35 +76,34 @@ export default function Profile() {
         }
         else if (e.target.id === 'email')
         {
-            console.log(e.target.id, emailField)
             setEditEmail(false);
             dispatch(editUser(e.target.id, emailField, store.user))
         }
         else if (e.target.id === 'location')
         {
-            console.log(e.target.id, locationField, zipField)
             setEditLocation(false);
             dispatch(editUser(e.target.id, {location: locationField, zipcode: zipField}, store.user))
         }
         else if (e.target.id === 'bio')
         {
-            console.log(e.target.id, emailField)
             setEditBio(false);
             dispatch(editUser(e.target.id, bio, store.user))
         }
         else if (e.target.id === 'image')
         {
-            console.log(e.target.files[0])
             dispatch(imageUpload(e.target.files[0], store.user))
         }
     }
 
+    // Prevents alerts from closing unless you explicitly close them or wait for them to timeout
     const handleClose = (e, reason) => {
         if (reason === 'clickaway') return;
         dispatch(clearMessages());
         setOpen(false);
       }
     
+    // useEffect is effectively an alternative to componentDidMount, componentDidUpdate, and componentWillUnmount
+    // this is what  triggers the alert when a message is send to the redux store
     React.useEffect(() => {
     if (!open) {
         if (store.error.message) {
@@ -236,11 +245,13 @@ export default function Profile() {
                 </Snackbar>   
             </div>
         ) : (
+            {/*Redirect user to main page if the user is not authenticated*/}
             <div>{history.push('/')}</div>
         )
     )
 }
 
+// These are the styles for the component.
 const useStyles = makeStyles((theme) => ({
     root: {
         marginTop: '2vh',
@@ -268,12 +279,5 @@ const useStyles = makeStyles((theme) => ({
         alignItems: 'center',
         marginLeft: '10px',
         marginRight: '10px'
-    },
-    editbutton: {
-        // height: theme.spacing(6),
-        // width: theme.spacing(6),
-    },
-    textfield: {
-        
     },
 }))
