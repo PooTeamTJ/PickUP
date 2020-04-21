@@ -98,6 +98,7 @@ export const loadUser = (token) => dispatch => {
     // Sends JWT to middleware to decode and then retrieves use data from database
     trackPromise(axios.get('https://us-central1-pickup-proj.cloudfunctions.net/api/user', auth)
     .then(res => {
+        console.log(res.data)
         let user = {token, ...res.data.credentials}
         dispatch({
             type: LOGIN_USER,

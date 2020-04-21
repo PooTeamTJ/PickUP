@@ -39,8 +39,10 @@ export default function SimpleExpansionPanel() {
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
   const formatTimeDate = (time, date) => {
     var _date = date.split('-', 3)
-    var month = months[parseInt(_date[0])]
-    return month + ' ' + _date[1] + ', ' + _date[2] + ' at ' + time
+    var month = months[parseInt(_date[0]) - 1]
+    if (month && _date[1] && _date[2]) return month + ' ' + _date[1] + ', ' + _date[2] + ' at ' + time
+    else if (time) return time
+    else return ''
   }
 
   // Determines which sport icon to display on card
@@ -75,9 +77,9 @@ export default function SimpleExpansionPanel() {
             
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
-            <Grid container>
-              <Grid item xs></Grid>
-              <Grid item><Typography>{event.location}</Typography></Grid>
+            <Grid container direction='row' justify='space-evenly' alignItems='center' >
+              <Grid item xs={'auto'}><img src={'https://maps.googleapis.com/maps/api/staticmap?center='+event.location+'&zoom=13&size=400x300&maptype=roadmap&key=AIzaSyDajSMNySNArAGv-sLRldlp4lAKsZE-YnQ'} alt={event.location}/></Grid>
+              <Grid item xs={'auto'}><Typography>{event.location}</Typography></Grid>
             </Grid>
           </ExpansionPanelDetails>
         </ExpansionPanel>
@@ -103,4 +105,9 @@ const useStyles = makeStyles((theme) => ({
   date: {
     justifySelf: 'right',
   },
+  contents: {
+    direction: 'row',
+    justify: 'center',
+    alignItems: 'center'
+  }
 }));

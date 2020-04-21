@@ -10,6 +10,9 @@ const initState = {
 const eventReducer = (state = initState, action) => {
     switch (action.type) {
         case LOAD_EVENTS:
+            action.payload.sort((a,b) => (a.date.substring(3,5) < b.date.substring(3,5)) ? -1 : 1 )
+            action.payload.sort((a,b) => (a.date.substring(0,2) < b.date.substring(0,2)) ? -1 : 1 )
+            action.payload.sort((a,b) => (a.date.substring(6) < b.date.substring(6)) ? -1 : 1 )
             return {
                 events: action.payload
             }
