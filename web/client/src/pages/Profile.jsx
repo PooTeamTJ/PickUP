@@ -245,7 +245,6 @@ export default function Profile() {
                 </Snackbar>   
             </div>
         ) : (
-            {/*Redirect user to main page if the user is not authenticated*/}
             <div>{history.push('/')}</div>
         )
     )
