@@ -7,6 +7,7 @@ import {
   useColorScheme,
   FlatList,
   AsyncStorage,
+  ImageBackground,
 } from "react-native";
 import EventCard from "../Components/EventCard";
 
@@ -63,30 +64,52 @@ export default class AllEventsScreen extends Component {
   renderItem = ({ item }) => {
     return (
       <View>
-        <EventCard event={item} />
+        <EventCard event={item} navigation={this.props.navigation} />
       </View>
     );
   };
 
   render() {
     return (
-      <View style={styles.events}>
-        <React.Fragment>
-          <FlatList
-            keyExtractor={(events) => events.eventID}
-            data={this.state.events}
-            renderItem={this.renderItem}
-          />
-        </React.Fragment>
-      </View>
+      <ImageBackground
+        source={require("../assets/loginBG.jpeg")}
+        style={styles.image}
+        blurRadius={4}
+      >
+        <View style={styles.events}>
+          <Text style={styles.text}>ALL EVENTS</Text>
+
+          <React.Fragment>
+            <FlatList
+              keyExtractor={(events) => events.eventID}
+              data={this.state.events}
+              renderItem={this.renderItem}
+            />
+          </React.Fragment>
+        </View>
+      </ImageBackground>
     );
   }
 }
 
 const styles = StyleSheet.create({
   events: {
-    marginTop: 100,
+    marginTop: 40,
     fontSize: 40,
     textAlign: "center",
+  },
+  text: {
+    textAlign: "center",
+    fontSize: 50,
+    paddingBottom: 10,
+    fontWeight: "bold",
+    backgroundColor: "#000",
+    color: "#FFF",
+    marginTop: 5,
+  },
+  image: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center",
   },
 });

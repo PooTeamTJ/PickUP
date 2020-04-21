@@ -19,8 +19,7 @@ const cors = require('cors')
 
 
 const app = express();
-// app.options("*", cors())
-app.use(cors({ orgin: true}))
+app.use(cors({origin:true}))
 
 
 // no need to pass any parameters beacause of .firebasesrc

@@ -10,7 +10,6 @@ import {
 } from "react-native";
 import EventComponent from "../Components/eventComponent";
 import { Card, ListItem, Icon } from "react-native-elements";
-// const { db } = require("../../web/functions/util/admin");
 
 export default class YourEvents extends Component {
   constructor(props) {

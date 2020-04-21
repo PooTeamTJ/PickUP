@@ -28,7 +28,10 @@ exports.getAllEvents = (req, res) => {
                     rosterCount: doc.data().rosterCount,
                     waitList: doc.data().waitList,
                     createdAt: doc.data().createdAt,
-                    sport: doc.data().sport
+                    sport: doc.data().sport,
+                    time: doc.data().time,
+                    date: doc.data().date,
+
                 });
             })
             return res.json(events);
@@ -37,7 +40,7 @@ exports.getAllEvents = (req, res) => {
 
 }
 /*
-    At this end point we are going to add a event to 
+    At this end point we are going to add a event to
     our existing data.
 
     We create a new object called newEvent
@@ -46,11 +49,11 @@ exports.getAllEvents = (req, res) => {
 
     if it was created succesfully we show a message
 
-    if not we show an error message 
+    if not we show an error message
 
-    const are known to be immutable but we 
-    
-    can still add an Id to them it is just 
+    const are known to be immutable but we
+
+    can still add an Id to them it is just
 
     we cannot actually change their type
 */
@@ -69,7 +72,7 @@ exports.addNewEvent = (req, res) => {
         location: req.body.location,
         sport: req.body.sport,
         time: req.body.time,
-        date: req.body.date, 
+        date: req.body.date,
         rosterCount: 0,
         waitList: 0
     }
@@ -119,7 +122,7 @@ exports.getOneEvent = (req,res) => {
     })
 }
 /*
-    Delete a event when we delete a event we want to 
+    Delete a event when we delete a event we want to
     delete all the roster and waitlist as well
 */
 
@@ -139,7 +142,7 @@ exports.deleteEvent = (req, res) => {
 
                 data.forEach((doc) => {
                     batch.delete(doc.ref);
-                    
+
                 })
                 return batch.commit();
              })

@@ -8,11 +8,10 @@ import {
   StatusBar,
   ImageBackground,
   FlatList,
-  AsyncStorage
+  AsyncStorage,
 } from "react-native";
 
 export default class EventComponent extends Component {
-
   constructor(props) {
     super(props);
 
@@ -30,15 +29,20 @@ export default class EventComponent extends Component {
       err: null,
       dateState: null,
       sportState: null,
-      tokenState: ''
+      tokenState: "",
+      eventId: null,
     };
 
-    this.addPerson = this.addPerson.bind(this)
-    this.leaveEvent = this.leaveEvent.bind(this)
-
+    this.addPerson = this.addPerson.bind(this);
+    this.leaveEvent = this.leaveEvent.bind(this);
   }
 
-
+  updateEventOnScreen() {
+    if (this.state.eventId != this.props.route.params.id) {
+      this.setState({ eventId: this.props.route.params.id });
+      this.getEvent();
+    }
+  }
 
   //**####################################################################################################################**//
   // get token
@@ -50,7 +54,6 @@ export default class EventComponent extends Component {
 
       const token = JSON.parse(retrievedItem);
       return token;
-
     } catch (error) {
       console.log(error);
     }
@@ -59,17 +62,12 @@ export default class EventComponent extends Component {
   // get token end
   //**####################################################################################################################**//
 
-
-
-  getCurrentRoster() {
-
-
-  }
+  getCurrentRoster() {}
 
   //**####################################################################################################################**//
   // join event
   //**####################################################################################################################**//
-   addPerson  ()  {
+  addPerson() {
     // if (this.state.rosterCountState == this.maxPeopleState) {
     //   this.state.err = "Event is full";
     // } else {
@@ -77,34 +75,31 @@ export default class EventComponent extends Component {
     //   this.state.err = null;
     // }
 
-    console.log('addPerson() ' + this.state.tokenState)
+    console.log("addPerson() " + this.state.tokenState);
 
     fetch(
-       `https://us-central1-pickup-proj.cloudfunctions.net/api/events/4NwUiP0WTtd7mrNWBFLR/tag`, //${this.props.eventID}/tag`, //GNLHb6HOvPl56tK2VEz2,
+      `https://us-central1-pickup-proj.cloudfunctions.net/api/events/${this.state.eventId}/tag`, //GNLHb6HOvPl56tK2VEz2,
       {
         method: "GET",
         headers: {
-          'Authorization': 'Bearer ' + this.state.tokenState
-
-        }
+          Authorization: "Bearer " + this.state.tokenState,
+        },
       }
     )
-    .then((response) => response.json())
-    .then((x) => {
-        console.log(x)
-        this.getEvent()
-
+      .then((response) => response.json())
+      .then((x) => {
+        console.log(x);
+        this.getEvent();
       })
       .catch((error) => console.error(error))
       .finally(() => {
         this.setState({ isLoading: false });
       });
-  };
+  }
 
   //**####################################################################################################################**//
   // join event end
   //**####################################################################################################################**//
-
 
   //**####################################################################################################################**//
   // leave event
@@ -120,54 +115,48 @@ export default class EventComponent extends Component {
     // }
 
     fetch(
-       `https://us-central1-pickup-proj.cloudfunctions.net/api/events/4NwUiP0WTtd7mrNWBFLR/untag`, //${this.props.eventID}/tag`, //GNLHb6HOvPl56tK2VEz2,
+      `https://us-central1-pickup-proj.cloudfunctions.net/api/events/${this.state.eventId}/untag`, //GNLHb6HOvPl56tK2VEz2,
       {
         method: "GET",
         headers: {
-          'Authorization': 'Bearer ' + this.state.tokenState
-
-        }
+          Authorization: "Bearer " + this.state.tokenState,
+        },
       }
     )
-    .then((response) => response.json())
-    .then((x) => {
-        console.log(x)
-        this.getEvent()
-
+      .then((response) => response.json())
+      .then((x) => {
+        console.log(x);
+        this.getEvent();
       })
       .catch((error) => console.error(error))
       .finally(() => {
         this.setState({ isLoading: false });
       });
-
   };
   //**####################################################################################################################**//
   // leave event end
   //**####################################################################################################################**//
 
-
   //**####################################################################################################################**//
   // get event
   //**####################################################################################################################**//
   // here we get all the info from the data base by calling the route from backend
-  async getEvent  ()  {
-   // var item = await AsyncStorage.getItem('token')
-   // var token = JSON.parse(item)
-  //  var token = await this.getUserToken('token')
-  console.log('getEvent() ' + this.state.tokenState)
-
+  async getEvent() {
+    // var item = await AsyncStorage.getItem('token')
+    // var token = JSON.parse(item)
+    //  var token = await this.getUserToken('token')
+    //console.log("getEvent() " + this.state.tokenState);
     fetch(
-       `https://us-central1-pickup-proj.cloudfunctions.net/api/events/4NwUiP0WTtd7mrNWBFLR`,//${this.props.eventID}`, //GNLHb6HOvPl56tK2VEz2,
+      `https://us-central1-pickup-proj.cloudfunctions.net/api/events/${this.props.route.params.id}`, //GNLHb6HOvPl56tK2VEz2,
       {
         method: "GET",
         headers: {
-          'Authorization': 'Bearer ' + this.state.tokenState
-
-          }
+          Authorization: "Bearer " + this.state.tokenState,
+        },
       }
     )
-    .then((response) => response.json())
-    .then((x) => {
+      .then((response) => response.json())
+      .then((x) => {
         this.setState({
           rosterCountState: x.rosterCount,
           locationState: x.location,
@@ -175,38 +164,38 @@ export default class EventComponent extends Component {
           waitListState: x.maxPeople,
           timeState: x.time,
           dateState: x.date,
-          sportState: x.sport
+          sportState: x.sport,
         });
       })
       .catch((error) => console.error(error))
       .finally(() => {
         this.setState({ isLoading: false });
       });
-  };
+  }
   //**####################################################################################################################**//
   //      get event end
   //**####################################################################################################################**//
-
 
   //**####################################################################################################################**//
   //  componentDidMount
   //**####################################################################################################################**//
   componentDidMount() {
     this.getUserToken("token")
-            .then((value) => {
-                this.setState({tokenState: value})
-
-            }).then(() => {
-              this.getEvent();
-            })
-            .catch((error) => {
-                console.log("Error getting token")
-            })
+      .then((value) => {
+        this.setState({ tokenState: value });
+      })
+      .then(() => {
+        this.getEvent();
+      })
+      .catch((error) => {
+        console.log("Error getting token");
+      });
   }
   //**####################################################################################################################**//
   //**####################################################################################################################**//
 
   render() {
+    this.updateEventOnScreen();
     return (
       <ImageBackground
         source={require("../assets/loginBG.jpeg")}
@@ -231,15 +220,19 @@ export default class EventComponent extends Component {
               {this.state.locationState}{" "}
             </Text>
             <Text style={{ fontSize: 20, top: "15%", color: "#FFF" }}>
-              Participants: {this.state.rosterCountState} /  {this.state.maxPeopleState}{" "}
+              Participants: {this.state.rosterCountState} /{" "}
+              {this.state.maxPeopleState}{" "}
             </Text>
           </View>
 
           {/**place holder for a map**/}
           <View>
             <Image
-            style={styles.logo}
-            source={{uri:`https://maps.googleapis.com/maps/api/staticmap?center=${this.state.locationState}&zoom=13&size=600x300&maptype=roadmap&key=AIzaSyDajSMNySNArAGv-sLRldlp4lAKsZE-YnQ`}} />
+              style={styles.logo}
+              source={{
+                uri: `https://maps.googleapis.com/maps/api/staticmap?center=${this.state.locationState}&zoom=13&size=600x300&maptype=roadmap&key=AIzaSyDajSMNySNArAGv-sLRldlp4lAKsZE-YnQ`,
+              }}
+            />
           </View>
 
           {/** Buttons to join and leave event**/}
@@ -258,7 +251,7 @@ export default class EventComponent extends Component {
         <View style={styles.backBtnContainer}>
           <TouchableOpacity
             style={styles.userBtn}
-            onPress={() => this.props.navigation.navigate("Home")}
+            onPress={() => this.props.navigation.navigate("All Events")}
           >
             <Text style={styles.btnTxt}>Back</Text>
           </TouchableOpacity>
@@ -312,8 +305,8 @@ const styles = StyleSheet.create({
     left: "6%",
   },
   logo: {
-    top:"20%",
+    top: "20%",
     width: 350,
     height: 250,
-  }
+  },
 });
