@@ -1,3 +1,12 @@
+/*****************************/
+/*                           */
+/*          PAGE IS          */
+/*           NOT             */
+/*          IN USE           */
+/*                           */
+/*                           */
+/*****************************/
+
 import React from 'react';
 import { connect } from 'react-redux'
 import SideBar from '../components/sidebar'

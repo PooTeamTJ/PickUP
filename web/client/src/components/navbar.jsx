@@ -11,18 +11,22 @@ import Typography from '@material-ui/core/Typography';
 import { Button } from '@material-ui/core';
 
 export default function MenuAppBar() {
-    
+    // Redux hooks for dispatch and store access
     const state = useSelector(state => state);
     const dispatch = useDispatch();
+    // Router history for redirects
     const history = useHistory();
+    // See below component for class styles
     const classes = useStyles();
 
+    // Logout button
     const handleLogout = (e) => {
         e.preventDefault();
         dispatch(logoutUser());
         history.push('/');
     }
 
+    // Navigation button
     const handleClick = (e) => {
         console.log(e.target.id)
         e.preventDefault();
@@ -38,11 +42,8 @@ export default function MenuAppBar() {
                     </Typography>
                     {state.user.token ? (
                         <div>
-                            {/* <Button>
-                                <Link to='/profile' style={{ textDecoration: 'none', color: '#c4c4c4'}}>Edit Profile</Link>
-                            </Button> */}
-                            <Button id='settings' onClick={handleClick}>
-                                <Link id='settings' to='/settings' style={{ textDecoration: 'none', color: '#fff'}}>Settings</Link>
+                            <Button id='profile' onClick={handleClick}>
+                                <Link id='profile' to='/profile' style={{ textDecoration: 'none', color: '#fff'}}>Profile</Link>
                             </Button>
                             <Button onClick={handleLogout} id='logout' style={{ textDecoration: 'none', color: '#fff'}}>Logout</Button>
                         </div>

@@ -26,27 +26,25 @@ const userReducer = (state = initState, action) => {
             }
         }
         case LOGIN_USER: {
-            console.log('LOGIN_USER')
             return {
                 ...action.payload,
             }
         }
         case LOGOUT_USER: {
-            console.log('LOGOUT_USER')
             return {
                 ...state,
                 token: null
             }
         }
         case EDIT_USER: {
-            console.log('EDIT_USER')
+            if (action.payload.field === 'location') 
+                return {...state, location: action.payload.value.location, zipcode: action.payload.value.zipcode}
             return {
                 ...state,
                 [action.payload.field]: action.payload.value
             }
         }
         default: {
-            console.log('DEFAULT')
             return state;
         }
     }

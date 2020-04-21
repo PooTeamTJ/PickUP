@@ -12,6 +12,7 @@ class mainPage extends React.Component {
     render() {   
         const history = this.props.history
 
+        // This page will redirect to the login page if the user is not authenticated
         return(
             this.props.user.token ? (
                 <div>

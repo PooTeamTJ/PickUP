@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { editUser, imageUpload } from '../actions/userActions';
+import { clearMessages } from '../actions/errorActions'
 
 // Material UI Imports
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -10,20 +11,37 @@ import EditIcon from '@material-ui/icons/Edit';
 import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+
+// A subcomponent for the alerts using material ui alerts
+const Alert = (props) => {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+}  
 
 export default function Profile() {
-    const classes = useStyles();
+    // access to redux store and action dispatch
     const store = useSelector(state => state);
     const dispatch = useDispatch();
+    // Styles... see below
+    const classes = useStyles();
+    // Access to history props of react-router-dom
+    // Used for redirects
     const history = useHistory();
+    // Alternative to react state using hooks instead of class based component
     const [EditName = false, setEditName] = React.useState();
     const [nameField = '', setNameField] = React.useState();
+    const [EditLocation = false, setEditLocation] = React.useState();
+    const [locationField = '', setLocationField] = React.useState();
+    const [zipField = '', setZipField] = React.useState();
     const [EditEmail = false, setEditEmail] = React.useState();
     const [emailField = '', setEmailField] = React.useState();
     const [EditBio = false, setEditBio] = React.useState();
     const [bio = store.user.bio, setBio] = React.useState();
     const [img = null, setImg] = React.useState();
+    const [open, setOpen] = React.useState(false);
     
+    // onClick handles the toggle of profile fields between display and edit
     const onClick = (e) => {
         console.log(e.target)
         if (e.target.id === 'editName')
@@ -39,9 +57,16 @@ export default function Profile() {
         else if (e.target.id === 'editBio')
         {
             setEditBio(!EditBio);
+            setBio('')
+        }
+        else if (e.target.id === 'editLocation')
+        {
+            setEditLocation(!EditLocation);
         }
     }
 
+    // Submits changes to the editUser Redux action for api calls with content dependent on the field being changed
+    // Also reverts the field back to display mode instead of edit mode
     const handleSubmit = (e) => {
         e.preventDefault();
         if (e.target.id === 'name')
@@ -51,22 +76,41 @@ export default function Profile() {
         }
         else if (e.target.id === 'email')
         {
-            console.log(e.target.id, emailField)
             setEditEmail(false);
             dispatch(editUser(e.target.id, emailField, store.user))
         }
+        else if (e.target.id === 'location')
+        {
+            setEditLocation(false);
+            dispatch(editUser(e.target.id, {location: locationField, zipcode: zipField}, store.user))
+        }
         else if (e.target.id === 'bio')
         {
-            console.log(e.target.id, emailField)
             setEditBio(false);
             dispatch(editUser(e.target.id, bio, store.user))
         }
         else if (e.target.id === 'image')
         {
-            console.log(e.target.files[0])
             dispatch(imageUpload(e.target.files[0], store.user))
         }
     }
+
+    // Prevents alerts from closing unless you explicitly close them or wait for them to timeout
+    const handleClose = (e, reason) => {
+        if (reason === 'clickaway') return;
+        dispatch(clearMessages());
+        setOpen(false);
+      }
+    
+    // useEffect is effectively an alternative to componentDidMount, componentDidUpdate, and componentWillUnmount
+    // this is what  triggers the alert when a message is send to the redux store
+    React.useEffect(() => {
+    if (!open) {
+        if (store.error.message) {
+        setOpen(true);
+        }
+    }
+    }, [open, store.error.message])
 
     return (
         store.user.token ? (
@@ -76,7 +120,7 @@ export default function Profile() {
                     <Avatar className={classes.avatar} src={store.user.imageUrl} ></Avatar>
                     <input id='image' type='file' onChange={handleSubmit} style={{display: 'none'}} ref={fileInput => setImg(fileInput)}/>
                     <Button variant="contained" color="primary" onClick={() => img.click()}>Upload</Button>
-                    {/*Edit Name*/}
+                    {/* Edit Name */}
                     <div className={classes.namefield}>
                         {!EditName ? (
                             <div className={classes.namefield}>
@@ -102,7 +146,7 @@ export default function Profile() {
                             </form>
                         )}    
                     </div>
-                    {/* Edit Email: currently not working*/}
+                    {/* Edit Email */}
                     <div className={classes.namefield}>
                         {!EditEmail ? (
                             <div className={classes.namefield}>
@@ -129,11 +173,49 @@ export default function Profile() {
                         )}
                         
                     </div>
+                    {/* Edit Location */}
+                    <div className={classes.namefield}>
+                        {!EditLocation ? (
+                            <div className={classes.namefield}>
+                                <Typography component="h1" variant="body1" className={classes.name}>
+                                    {(store.user.location === '') ? ('Enter your address') : (store.user.location)}, {(store.user.zipcode === 0) ? ('Enter your zipcode') : (store.user.zipcode)}
+                                </Typography>
+                                <IconButton className={classes.editbutton} id='editLocation' onClick={onClick}><EditIcon id='editLocation'/></IconButton>
+                            </div>
+                        ) : (
+                            <form className={classes.namefield} id='location' onSubmit={handleSubmit}>
+                                <TextField
+                                    size='small'
+                                    variant='outlined'
+                                    margin='normal'
+                                    fullWidth
+                                    id='location'
+                                    label='Address'
+                                    autoComplete='location'
+                                    value={locationField}
+                                    onChange={e => setLocationField(e.target.value)}
+                                />
+                                <TextField
+                                    size='small'
+                                    variant='outlined'
+                                    margin='normal'
+                                    fullWidth
+                                    id='location'
+                                    label='Zip Code'
+                                    autoComplete='zipcode'
+                                    value={zipField}
+                                    onChange={e => setZipField(e.target.value)}
+                                />
+                                <IconButton className={classes.editbutton} type='submit'><CheckIcon/></IconButton>
+                                <IconButton className={classes.editbutton} id='editLocation' onClick={onClick}><ClearIcon id='editLocation'/></IconButton>
+                            </form>
+                        )}    
+                    </div>
                     {/* Edit Bio */}
                     <div className={classes.namefield}>
                         {!EditBio ? (
                             <div className={classes.namefield}>
-                                <Typography component="p" variant="p" className={classes.name}>{store.user.bio}</Typography>
+                                <Typography component="p" variant="body1" className={classes.name}>{(bio === '') ? ('Enter a new bio') : (store.user.bio)}</Typography>
                                 <IconButton className={classes.editbutton} id='editBio' onClick={onClick}><EditIcon id='editBio'/></IconButton>
                             </div>
                         ) : (
@@ -155,7 +237,12 @@ export default function Profile() {
                         
                     </div>
                     
-                </Paper>    
+                </Paper> 
+                <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                    <Alert onClose={handleClose} severity={store.error.type}>
+                        {store.error.message}
+                    </Alert>
+                </Snackbar>   
             </div>
         ) : (
             <div>{history.push('/')}</div>
@@ -163,6 +250,7 @@ export default function Profile() {
     )
 }
 
+// These are the styles for the component.
 const useStyles = makeStyles((theme) => ({
     root: {
         marginTop: '2vh',
@@ -190,12 +278,5 @@ const useStyles = makeStyles((theme) => ({
         alignItems: 'center',
         marginLeft: '10px',
         marginRight: '10px'
-    },
-    editbutton: {
-        // height: theme.spacing(6),
-        // width: theme.spacing(6),
-    },
-    textfield: {
-        
     },
 }))
