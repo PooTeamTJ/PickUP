@@ -43,7 +43,7 @@ export default class LoginPage extends Component {
         if (res.token != null) {
           //console.log(res.token);
           AsyncStorage.setItem("token", JSON.stringify(res.token));
-          this.props.navigation.navigate("Home");
+          this.props.navigation.navigate("All Events");
         } else {
           alert(res.message); // tell user the password specifications
         }
@@ -90,7 +90,7 @@ export default class LoginPage extends Component {
             {/**    Signup btn      **/}
             <TouchableOpacity
               style={styles.userBtn}
-              onPress={() => this.props.navigation.navigate("Signup")}
+              onPress={() => this.props.navigation.navigate("Create an Account")}
             >
               <Text style={styles.btnTxt}>Signup</Text>
             </TouchableOpacity>

@@ -262,6 +262,7 @@ export default class createEvent extends Component {
               />
             </TouchableOpacity>
           </View>
+          
         </ImageBackground>
       </View>
     );

@@ -58,6 +58,7 @@ export default class AllEventsScreen extends Component {
 
   componentDidMount() {
     this.getAllEvents();
+    this.listener = this.props.navigation.addListener("didFocus", this.getFlights)
   }
 
   // use renderItem to display the dynamic events as an EventCard
@@ -94,9 +95,10 @@ export default class AllEventsScreen extends Component {
 
 const styles = StyleSheet.create({
   events: {
-    marginTop: 40,
+    marginTop: 30,
     fontSize: 40,
     textAlign: "center",
+    marginBottom: 60
   },
   text: {
     textAlign: "center",
@@ -106,6 +108,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#000",
     color: "#FFF",
     marginTop: 5,
+    paddingTop: 20
   },
   image: {
     flex: 1,

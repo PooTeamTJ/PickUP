@@ -15,21 +15,18 @@ import EventScreen from "./screens/EventScreen";
 const Drawer = createDrawerNavigator();
 
 export default function App() {
+  console.disableYellowBox = true
   return (
     <NavigationContainer>
-      <Drawer.Navigator initialRouteName="Login">
-        <Drawer.Screen name="Login" component={LoginScreen} />
-        <Drawer.Screen name="Signup" component={SignUpScreen} />
-        <Drawer.Screen
-          name="Change Password"
-          component={ChangePasswordScreen}
-        />
-        <Drawer.Screen name="Home" component={HomeScreen} />
-        <Drawer.Screen name="Profile" component={ProfileScreen} />
+      <Drawer.Navigator initialRouteName="Back to Login">
+        <Drawer.Screen name="Back to Login" component={LoginScreen} />
+        <Drawer.Screen name="Create an Account" component={SignUpScreen} />
+        <Drawer.Screen name="Change Password" component={ChangePasswordScreen}/>
+        {/* <Drawer.Screen name="Home" component={HomeScreen} />
+        <Drawer.Screen name="Profile" component={ProfileScreen} /> */}
         <Drawer.Screen name="All Events" component={AllEventsScreen} />
-        <Drawer.Screen name="Event" component={EventComponent} />
         <Drawer.Screen name="Create Event" component={CreateEventComponent} />
-        <Drawer.Screen name="Event Screen" component={EventScreen} />
+        <Drawer.Screen name="Event" component={EventComponent} />
       </Drawer.Navigator>
     </NavigationContainer>
   );
@@ -42,4 +39,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  white: {
+    color: "black",
+    marginLeft: 5
+  }
 });

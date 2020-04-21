@@ -69,7 +69,7 @@ export default class ChangePassword extends Component {
                 </View>
                 <View style={styles.buttonStyle}>
                             <Text style={styles.account}>Go Back To</Text>
-                            <Button color="#FFD700" onPress={() => this.props.navigation.navigate('Login')} title='Login' />
+                            <Button color="#FFD700" onPress={() => this.props.navigation.navigate('Back to Login')} title='Login' />
                 </View>
             </ImageBackground>
         </View>

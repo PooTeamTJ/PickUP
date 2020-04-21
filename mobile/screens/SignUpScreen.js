@@ -71,7 +71,7 @@ export default class SignUpPage extends React.Component {
                     {/**    Go to login link    **/}
                     <View style={styles.buttonStyle}>
                         <Text style={styles.account}>Already have an account?</Text>
-                        <Button color="#FFD700" onPress={() => this.props.navigation.navigate('Login')} title='Login' />
+                        <Button color="#FFD700" onPress={() => this.props.navigation.navigate('Back to Login')} title='Login' />
                     </View>
                 </ImageBackground>
             </View>

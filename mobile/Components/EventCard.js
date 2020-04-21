@@ -47,9 +47,7 @@ export default class EventCard extends Component {
             <Text style={{ fontWeight: "bold" }}>Roster: </Text>
             {this.state.rosterCount} / {this.props.event.maxPeople} {"\n"}
             <Text style={{ fontWeight: "bold" }}>Location: </Text>
-            {this.props.event.location} {"\n"}
-            <Text style={{ fontWeight: "bold" }}>ID: </Text>
-            {this.props.event.eventId}
+            {this.props.event.location}
           </Text>
           <Button
             icon={<Icon name="code" color="#ffffff" />}
